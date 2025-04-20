@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/19 13:03:00 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/20 13:17:32 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_env {
-    char *key;
-    char *value;
-    struct s_env *next;
-} t_env;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 int		ft_lstsize(t_env *lst);
 char	*ft_strchr(const char *s, int c);
@@ -48,9 +48,11 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 void	free_arr(char **arr);
 void	ft_putstr_fd(char *s, int fd);
-int		execut_command(char **args, char *env_path);
+int		execute_command(char **args, char *env_path);
 char	**env_to_array(t_env *env);
 void	init_env(char **envp);
 void	free_env(t_env *env);
 t_env	*get_env(t_env *new_env);
+int		add_env_entry(t_env *tmp, char **envp, int i);
+
 #endif
