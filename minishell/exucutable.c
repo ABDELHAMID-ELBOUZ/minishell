@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/20 12:08:27 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:35:07 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ int	check_executable(char *cmd, char *env_path, char **full_path)
 {
 	if (!cmd)
 		return (127);
-	if (cmd[0] == '/' || ft_strncmp(cmd, "../", 3) == 0 \
-		|| ft_strncmp(cmd, "./", 2) == 0)
+	if (cmd[0] == '/' || ft_strcmp(cmd, "../") == 0 \
+		|| ft_strcmp(cmd, "./") == 0)
 	{
 		if (access(cmd, F_OK) != 0)
 			return (127);

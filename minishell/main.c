@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:05:44 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/20 13:12:29 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:29:38 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	char	**args;
 	char	*env_path;
+	t_env	*env;
 
+	env = get_env(NULL);
 	env_path = getenv("PATH");
 	init_env(envp);
 	while (1)
@@ -47,7 +49,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(input);
 		args = ft_split(input, ' ');
 		if (args && args[0])
-			is_builtin(args[0], args, env_path);
+			is_builtin(args[0], args, env_path, &env);
 		free_arr(args);
 		free(input);
 	}

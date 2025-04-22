@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/20 11:52:00 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/22 10:32:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_echo(char **args)
 		return (1);
 	i = 1;
 	no_new_line = 1;
-	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
 	{
 		no_new_line = 0;
 		i++;
