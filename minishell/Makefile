@@ -6,8 +6,8 @@ FLAGS = -Wall -Wextra
 
 RM = rm -f
 
-SRCS = main.c ft_strcmp.c echo.c ft_split.c ft_substr.c ft_strlen.c ft_strdup.c builtins.c pwd.c exit.c ft_atoi.c is_numeric.c  \
-ft_strjoin.c ft_strlcpy.c ft_strlcat.c ft_putstr_fd.c exucutable.c ft_strchr.c env.c ft_lstsize.c env.c  cd.c
+SRCS = main.c ft_strcmp.c ft_split.c ft_substr.c ft_strlen.c ft_strdup.c builtin.c  ft_atoi.c is_numeric.c  \
+ft_strjoin.c ft_strlcpy.c ft_strlcat.c ft_putstr_fd.c exucutable.c ft_strchr.c env.c ft_lstsize.c builtin2.c
 
 OBJS = $(SRCS:.c=.o)
 
