@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 10:43:01 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/22 10:19:33 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:59:17 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,5 @@
 void	ft_putstr_fd(char *s, int fd)
 {
 	if (s != NULL)
-	{
-		write(fd, "minishell: ", 11);
 		write(fd, s, ft_strlen(s));
-	}
 }

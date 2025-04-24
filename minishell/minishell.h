@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/22 11:29:52 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:42:39 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	**env_to_array(t_env *env);
 void	init_env(char **envp);
 void	free_env(t_env *env);
 t_env	*get_env(t_env *new_env);
-int		add_env_entry(t_env *tmp, char **envp, int i);
 int		ft_cd(char **args, t_env **env);
 
 #endif

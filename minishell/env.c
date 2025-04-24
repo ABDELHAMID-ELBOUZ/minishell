@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:15:39 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/22 11:34:47 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/24 13:06:15 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,48 +34,43 @@ void	free_env(t_env *env)
 		free(tmp);
 	}
 }
-
-int	add_env_entry(t_env *tmp, char **envp, int i)
+t_env	*new_node(char *envp, t_env *env)
 {
-	char	*key_val;
-
-	if (!tmp->key || !tmp->value || !*tmp->key || !*tmp->value)
-		return (i);
-	key_val = ft_strjoin(tmp->key, "=");
-	if (!key_val)
-		return (free_arr(envp), -1);
-	envp[i] = ft_strjoin(key_val, tmp->value);
-	free(key_val);
-	if (!envp[i])
-		return (free_arr(envp), -1);
-	return (i + 1);
+	char *tmp;
+	t_env	*new;
+	char	*eq;
+	eq = ft_strchr(envp, '=');
+	if (eq)
+	{
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return (free_env(env), NULL);
+		tmp = ft_substr(envp, 0, eq - envp);
+		if (!tmp)
+			return (NULL);
+		new->key = ft_strjoin(tmp, "=");
+		free(tmp);
+		new->value = ft_substr(eq + 1, 0, ft_strlen(eq + 1));
+		if (!new->key || !new->value)
+			return (free(new->key), free(new->value), free(new), free_env(env), NULL);
+		new->next = env;
+	}
+	return (new);
 }
 
 void	init_env(char **envp)
 {
 	int		i;
 	t_env	*env;
-	char	*eq;
-	t_env	*new;
-
+	
 	env = NULL;
 	i = 0;
-	while (envp[++i])
+	while (envp[i])
 	{
-		eq = ft_strchr(envp[i], '=');
-		if (eq)
-		{
-			new = malloc(sizeof(t_env));
-			if (!new)
-				return (free_env(env), ft_putstr_fd("malloc failed\n", 2));
-			new->key = ft_substr(envp[i], 0, eq - envp[i]);
-			new->value = ft_substr(eq + 1, 0, ft_strlen(eq + 1));
-			if (!new->key || !new->value)
-				return (ft_putstr_fd("minishell: substr failed\n", 2), \
-				free(new->key), free(new->value), free(new), free_env(env));
-			new->next = env;
-			env = new;
-		}
+		env = new_node(envp[i], env);
+		if (!env)
+			return (free_env(env));
+		i++;
 	}
 	get_env(env);
 }

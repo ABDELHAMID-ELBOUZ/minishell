@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/23 12:46:09 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:45:44 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,17 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-int ft_env()
+int ft_env( t_env	*envp)
 {
-    char **envp;
-    int i;
-
-    envp = env_to_array(get_env(NULL));
+    envp = get_env(NULL);
     if (!envp)
         return (1);
-    i = 0;
-    while (envp[i])
+    while (envp)
     {
-        printf("%s\n", envp[i]);
-        i++;
+        printf("%s", envp->key);
+        printf("%s\n", envp->value);
+        envp = envp->next;
     }
-    free_arr(envp);
     return (0);
 }
 
@@ -69,6 +65,6 @@ int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(args, env));
 	if (ft_strcmp(cmd, "env") == 0)
-		return (ft_env());
+		return (ft_env(*env));
 	return (execute_command(args, env_path));
 }

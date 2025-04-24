@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/22 11:35:07 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:01:16 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ char	**env_to_array(t_env *env)
 	count = ft_lstsize(tmp);
 	envp = malloc(sizeof(char *) * (count + 1));
 	if (!envp)
-		return (ft_putstr_fd("minishell: faild", 2), NULL);
-	tmp = env;
+		return (NULL);
 	i = 0;
 	while (tmp)
 	{
-		i = add_env_entry(tmp, envp, i);
-		if (i == -1)
-			return (NULL);
+		if (!tmp->key || !tmp->value)
+			return (free_arr(envp), NULL);
+		envp[i] = ft_strjoin(tmp->key, tmp->value);
+		if (!envp[i])
+		return (free_arr(envp), NULL);
+		i++;
 		tmp = tmp->next;
 	}
 	envp[i] = NULL;
@@ -100,10 +102,10 @@ int	check_status( char **args, char *env_path, char **full_path)
 	if (status == 127)
 	{
 		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd("minishell : command not found\n", 2);
 	}
 	else if (status == 126)
-		ft_putstr_fd("permission denied\n", 2);
+		ft_putstr_fd("minishell : permission denied\n", 2);
 	return (status);
 }
 
@@ -120,7 +122,7 @@ int	execute_command(char **args, char *env_path)
 		return (free(full_path), status);
 	envp = env_to_array(get_env(NULL));
 	if (!envp)
-		return (ft_putstr_fd("env_to_array failed", 2), free(full_path), 1);
+		return (free(full_path), 1);
 	pid = fork();
 	if (pid == -1)
 		return (free(full_path), free_arr(envp), perror("minishell: fork"), 1);
