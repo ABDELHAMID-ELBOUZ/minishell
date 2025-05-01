@@ -6,56 +6,30 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/24 12:03:19 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:35:15 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(char *key, t_env *env)
-{
-	char *eq;
-
-	eq = ft_strjoin(key, "=");
-	if (!eq)
-		return (NULL);
-	while (env)
-	{
-		if (env->key && ft_strcmp(env->key, eq) == 0)
-		{
-			free(eq);
-			return (env->value);
-		}
-		env = env->next;
-	}
-	free(eq);
-	return (NULL);
-}
-
 void	updat_env(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 
-	tmp = *env;
-	while (tmp)
-	{
-		if (tmp->key && ft_strcmp(tmp->key, key) == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			return ;
-		}
-		tmp = tmp->next;
-	}
+	if (find_and_update(env, key, value))
+		return ;
 	tmp = malloc(sizeof(t_env));
 	if (!tmp)
-		return ;
+		return (free(key));
 	tmp->key = ft_strdup(key);
-	tmp->value = ft_strdup(value);
-	if (!tmp->key || !tmp->value)
-		return (free(tmp->key), free(tmp->value), free(tmp));
-	tmp->next = *env;
-	*env = tmp;
+	if (value)
+		tmp->value = ft_strdup(value);
+	else
+		tmp->value = NULL;
+	if (value && !tmp->value)
+		return (free(tmp->key), free(tmp));
+	tmp->next = NULL;
+	ft_lstadd_back(env, tmp);
 }
 
 int	ft_cd(char **args, t_env **env)
@@ -88,7 +62,7 @@ int	ft_exit(char **args)
 	ft_putstr_fd("exit\n", 1);
 	if (!args || !args[1])
 		exit (0);
-	if ((is_numeric(args[1])) == 1)
+	if ((ft_atoi(args[1])) == 1)
 	{
 		ft_putstr_fd("exit: numeric argument required\n", 2);
 		exit (2);

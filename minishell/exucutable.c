@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/24 12:01:16 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/01 11:51:57 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ char	**env_to_array(t_env *env)
 	i = 0;
 	while (tmp)
 	{
-		if (!tmp->key || !tmp->value)
+		if (!tmp->key && !tmp->value)
 			return (free_arr(envp), NULL);
 		envp[i] = ft_strjoin(tmp->key, tmp->value);
 		if (!envp[i])
-		return (free_arr(envp), NULL);
+			return (free_arr(envp), NULL);
 		i++;
 		tmp = tmp->next;
 	}

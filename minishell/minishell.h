@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/24 11:42:39 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:33:55 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**ft_split(char const *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
-int		is_numeric(char *str);
+int		ft_isdigit(char c);
 int		ft_atoi(const char *str);
 int		is_builtin(char *cmd, char **args, char *env_path, t_env **env);
 int		ft_echo(char **av);
@@ -54,5 +54,13 @@ void	init_env(char **envp);
 void	free_env(t_env *env);
 t_env	*get_env(t_env *new_env);
 int		ft_cd(char **args, t_env **env);
+int		ft_isalnum(char c);
+int		is_alphabet(char c);
+int		ft_export(char **args, t_env **env);
+void	updat_env(t_env **env, char *key, char *value);
+void	ft_lstadd_back(t_env **lst, t_env *new);
+int		existing_key(t_env *env, char *key);
+char	*ft_strtrim(char const *s1, char const *set);
+int		find_and_update(t_env **env, char *key, char *value);
 
 #endif

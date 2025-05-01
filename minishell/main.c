@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:05:44 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/24 12:44:56 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:36:33 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ int	main(int ac, char **av, char **envp)
 	char	*env_path;
 	t_env	*env;
 
-	init_env(envp); 
+	init_env(envp);
 	env = get_env(NULL);
 	env_path = getenv("PATH");
 	while (1)
 	{
-		input = readline("mini_shell$ ");
+		input = readline("minishell> ");
 		if (!input)
 			break ;
 		if (!*input)

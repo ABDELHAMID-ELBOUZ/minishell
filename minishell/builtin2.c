@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/24 12:45:44 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:36:09 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,18 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-int ft_env( t_env	*envp)
+int	ft_env( t_env	*envp)
 {
-    envp = get_env(NULL);
-    if (!envp)
-        return (1);
-    while (envp)
-    {
-        printf("%s", envp->key);
-        printf("%s\n", envp->value);
-        envp = envp->next;
-    }
-    return (0);
+	envp = get_env(NULL);
+	if (!envp)
+		return (1);
+	while (envp)
+	{
+		printf("%s", envp->key);
+		printf("%s\n", envp->value);
+		envp = envp->next;
+	}
+	return (0);
 }
 
 int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
@@ -66,5 +66,7 @@ int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
 		return (ft_cd(args, env));
 	if (ft_strcmp(cmd, "env") == 0)
 		return (ft_env(*env));
+	if (ft_strcmp(cmd, "export") == 0)
+		return (ft_export(args, env));
 	return (execute_command(args, env_path));
 }

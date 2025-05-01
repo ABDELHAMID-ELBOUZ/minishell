@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:15:39 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/24 13:06:15 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:33:10 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,13 @@ void	free_env(t_env *env)
 		free(tmp);
 	}
 }
+
 t_env	*new_node(char *envp, t_env *env)
 {
-	char *tmp;
+	char	*tmp;
 	t_env	*new;
 	char	*eq;
+
 	eq = ft_strchr(envp, '=');
 	if (eq)
 	{
@@ -52,7 +54,8 @@ t_env	*new_node(char *envp, t_env *env)
 		free(tmp);
 		new->value = ft_substr(eq + 1, 0, ft_strlen(eq + 1));
 		if (!new->key || !new->value)
-			return (free(new->key), free(new->value), free(new), free_env(env), NULL);
+			return (free(new->key), free(new->value), \
+			free(new), free_env(env), NULL);
 		new->next = env;
 	}
 	return (new);
@@ -62,7 +65,7 @@ void	init_env(char **envp)
 {
 	int		i;
 	t_env	*env;
-	
+
 	env = NULL;
 	i = 0;
 	while (envp[i])

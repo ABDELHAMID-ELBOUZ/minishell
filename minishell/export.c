@@ -1,0 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
+/*   Updated: 2025/05/01 12:37:39 by aelbouz          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	is_valide_args(char *key)
+{
+	int	i;
+
+	if (!*key || !key || ft_isdigit(key[0]))
+		return (0);
+	i = 0;
+	while (key[i] && key[i] != '=')
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	print_export(t_env *env)
+{
+	while (env)
+	{
+		if (!env->value)
+			printf("declare -x %s\n", env->key);
+		else
+			printf("declare -x %s\"%s\"\n", env->key, env->value);
+		env = env->next;
+	}
+}
+
+int	handl_export_args(char *arg, t_env **env)
+{
+	char	*key;
+	char	*value;
+	char	*eq;
+
+	eq = ft_strchr(arg, '=');
+	if (eq)
+	{
+		key = ft_substr(arg, 0, eq - arg + 1);
+		if (!key)
+			return (1);
+		value = ft_substr(eq + 1, 0, ft_strlen(eq));
+		if (!value)
+			return (free(key), 1);
+		updat_env(env, key, value);
+		free(key);
+		free(value);
+	}
+	else
+		updat_env(env, arg, NULL);
+	return (0);
+}
+
+int	ft_export(char **args, t_env **env)
+{
+	int		i;
+	int		status;
+
+	status = 0;
+	if (!args[1])
+		return (print_export(*env), status);
+	i = 1;
+	while (args[i])
+	{
+		if (!is_valide_args(args[i]))
+		{
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			status = 1;
+		}
+		if (handl_export_args(args[i], env))
+			status = 1;
+		i++;
+	}
+	return (status);
+}
