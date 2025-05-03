@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:31:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/01 12:40:43 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/03 11:03:44 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,62 @@ int	find_and_update(t_env **env, char *key, char *value)
 		tmp = tmp->next;
 	}
 	return (free(clean_key), 0);
+}
+
+t_env	*copie_env(t_env	*env)
+{
+	t_env	*copie;
+	t_env	*new;
+	t_env	*last;
+
+	last = NULL;
+	copie = NULL;
+	while (env)
+	{
+		new = malloc(sizeof(t_env));
+		if (!new)
+			return (NULL);
+		new->key = ft_strdup(env->key);
+		if (!new->key)
+			return (free(new), NULL);
+		if (env->value)
+			new->value = ft_strdup(env->value);
+		else
+			new->value = NULL;
+		if (env->value && !new->value)
+			return (free(new->key), free(new), NULL);
+		new->next = NULL;
+		if (!copie)
+			copie = new;
+		else
+			last->next = new;
+		last = new;
+		env = env->next;	
+	}
+	return (copie);
+}
+
+t_env	*env_sorted(t_env *env)
+{
+	t_env	*current;
+	char	*tmp_key;
+	char	*tmp_value;
+	
+	current = env;
+	while (current && current->next)
+	{
+		if (strcmp(current->key, current->next->key) > 0)
+		{
+			tmp_key = current->key;
+			current->key = current->next->key;
+			current->next->key = tmp_key;
+			tmp_value = current->value;
+			current->value = current->next->value;
+			current->next->value = tmp_value;
+			current = env;
+		}
+		else
+			current = current->next;
+	}
+	return (env);
 }
