@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/03 10:51:49 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/04 11:07:11 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,12 @@ int		is_alphabet(char c);
 int		ft_export(char **args, t_env **env);
 void	updat_env(t_env **env, char *key, char *value);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-int		existing_key(t_env *env, char *key);
 char	*ft_strtrim(char const *s1, char const *set);
 int		find_and_update(t_env **env, char *key, char *value);
 t_env	*env_sorted(t_env *env);
+int		handl_export_args(char *arg, t_env **env);
 t_env	*copie_env(t_env	*head);
+int		is_valide_args(char *key);
+int	ft_unset(char **args, t_env **env);
+
 #endif

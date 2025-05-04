@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:31:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/03 11:03:44 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/04 09:56:05 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,26 @@ int	find_and_update(t_env **env, char *key, char *value)
 	return (free(clean_key), 0);
 }
 
+t_env	*new_copie(t_env *env)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->key = ft_strdup(env->key);
+	if (!new->key)
+		return (free(new), NULL);
+	if (env->value)
+		new->value = ft_strdup(env->value);
+	else
+		new->value = NULL;
+	if (env->value && !new->value)
+		return (free(new->key), free(new), NULL);
+	new->next = NULL;
+	return (new);
+}
+
 t_env	*copie_env(t_env	*env)
 {
 	t_env	*copie;
@@ -65,25 +85,13 @@ t_env	*copie_env(t_env	*env)
 	copie = NULL;
 	while (env)
 	{
-		new = malloc(sizeof(t_env));
-		if (!new)
-			return (NULL);
-		new->key = ft_strdup(env->key);
-		if (!new->key)
-			return (free(new), NULL);
-		if (env->value)
-			new->value = ft_strdup(env->value);
-		else
-			new->value = NULL;
-		if (env->value && !new->value)
-			return (free(new->key), free(new), NULL);
-		new->next = NULL;
+		new = new_copie(env);
 		if (!copie)
 			copie = new;
 		else
 			last->next = new;
 		last = new;
-		env = env->next;	
+		env = env->next;
 	}
 	return (copie);
 }
@@ -93,7 +101,7 @@ t_env	*env_sorted(t_env *env)
 	t_env	*current;
 	char	*tmp_key;
 	char	*tmp_value;
-	
+
 	current = env;
 	while (current && current->next)
 	{

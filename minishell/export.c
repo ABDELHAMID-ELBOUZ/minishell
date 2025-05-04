@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/03 11:08:25 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/04 09:55:41 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,25 @@ int	is_valide_args(char *key)
 	return (1);
 }
 
-void print_export(t_env *env)
+void	print_export(t_env *env)
 {
-    t_env	*sorted;
+	t_env	*sorted;
 	t_env	*copie;
-	
+
 	copie = copie_env(env);
 	sorted = env_sorted(copie);
-    if (!sorted)
-        return;
-    while (sorted)
-    {
-        if (!sorted->value)
-            printf("declare -x %s\n", sorted->key);
-        else
-            printf("declare -x %s\"%s\"\n", sorted->key, sorted->value);
-        sorted = sorted->next;
-    }
-    free_env(sorted);
-    free_env(copie);
+	if (!sorted)
+		return ;
+	while (sorted)
+	{
+		if (!sorted->value)
+			printf("declare -x %s\n", sorted->key);
+		else
+			printf("declare -x %s\"%s\"\n", sorted->key, sorted->value);
+		sorted = sorted->next;
+	}
+	free_env(sorted);
+	free_env(copie);
 }
 
 int	handl_export_args(char *arg, t_env **env)

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/01 11:51:57 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/04 09:02:32 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	check_status( char **args, char *env_path, char **full_path)
 	if (status == 127)
 	{
 		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd("minishell : command not found\n", 2);
+		ft_putstr_fd(" minishell : command not found\n", 2);
 	}
 	else if (status == 126)
 		ft_putstr_fd("minishell : permission denied\n", 2);
