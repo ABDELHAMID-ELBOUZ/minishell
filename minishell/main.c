@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:05:44 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/01 12:36:33 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/09 10:02:30 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ void	free_arr(char **arr)
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
-	char	**args;
-	char	*env_path;
-	t_env	*env;
-
+	char		*input;
+	char		**args;
+	t_env		*env;
+	t_command	*cmd;
+	int			last_status;
+	
 	init_env(envp);
 	env = get_env(NULL);
-	env_path = getenv("PATH");
+	last_status = 0;
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -48,12 +49,21 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);
 		args = ft_split(input, ' ');
-		if (args && args[0])
-			is_builtin(args[0], args, env_path, &env);
-		free_arr(args);
 		free(input);
+		if (!args || !args[0])
+		{
+			free(args);
+			continue ;
+		}
+		cmd = parse_command(args);
+		if (cmd)
+		{
+			last_status = execute_command(cmd, &env);
+			free_cmd(cmd);
+		}
+		free_arr(args);
 	}
 	free_env(env);
 	rl_clear_history();
-	return (0);
+	return (last_status);
 }

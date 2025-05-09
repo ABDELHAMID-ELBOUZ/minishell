@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/04 09:02:32 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/08 14:58:52 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	check_status( char **args, char *env_path, char **full_path)
 	return (status);
 }
 
-int	execute_command(char **args, char *env_path)
+int	is_not_builtin(char **args, char *env_path)
 {
 	char	*full_path;
 	int		status;

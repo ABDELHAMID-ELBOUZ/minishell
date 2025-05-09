@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:15:39 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/01 12:33:10 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:19:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_env	*get_env(t_env *new_env)
 {
-	static t_env	*env = NULL;
+	static t_env	*env;
 
 	if (new_env)
 		env = new_env;

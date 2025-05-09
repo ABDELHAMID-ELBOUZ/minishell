@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:50:37 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/04/28 10:45:06 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/09 11:28:09 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char	*ft_strdup(const char *s1)
 	size_t	i;
 
 	p = (char *)malloc((ft_strlen(s1) + 1) * sizeof(char));
-	i = 0;
 	if (p == NULL)
 		return (NULL);
+	i = 0;
 	while (s1[i])
 	{
 		p[i] = s1[i];

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/03 14:41:06 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/05 09:48:01 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,38 @@ int	ft_cd(char **args, t_env **env)
 	return (free(oldpwd), free(newpwd), 0);
 }
 
+int	is_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_exit(char **args)
 {
 	ft_putstr_fd("exit\n", 1);
 	if (!args || !args[1])
 		exit (0);
-	if ((ft_atoi(args[1])) == 1)
+	if ((is_numeric(args[1])) == 1)
 	{
-		ft_putstr_fd("exit: numeric argument required\n", 2);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(":`exit: numeric argument required\n", 2);
 		exit (2);
 	}
 	else if (args[2])
 	{
-		ft_putstr_fd("exit: too many arguments\n", 2);
-		exit (1);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
 	}
 	exit (ft_atoi(args[1]) % 256);
 }
