@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/04 09:55:41 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/11 11:33:14 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	ft_export(char **args, t_env **env)
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			status = 1;
 		}
-		if (handl_export_args(args[i], env))
+		else if (handl_export_args(args[i], env))
 			status = 1;
 		i++;
 	}

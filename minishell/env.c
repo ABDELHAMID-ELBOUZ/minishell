@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:15:39 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/08 16:19:49 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/12 09:43:54 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_env	*new_node(char *envp, t_env *env)
 		new = malloc(sizeof(t_env));
 		if (!new)
 			return (free_env(env), NULL);
-		tmp = ft_substr(envp, 0, eq - envp);
+		tmp = ft_substr(envp, 0, (ft_strlen(envp) - ft_strlen(eq)));
 		if (!tmp)
 			return (NULL);
 		new->key = ft_strjoin(tmp, "=");

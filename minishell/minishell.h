@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/09 12:26:03 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:47:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,5 @@ t_command	*parse_command(char **args);
 int 		execute_command(t_command *cmd, t_env **env);
 void		free_cmd(t_command *cmd);
 int			parse_rediraction(char **args, int i, t_redir *redire_info);
-int			fill_command_args(char **args, t_command *cmd, int i, int *j);
 
 #endif
