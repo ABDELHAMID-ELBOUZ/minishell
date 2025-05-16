@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   rediractions3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 09:13:47 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/16 10:44:42 by aelbouz          ###   ########.fr       */
+/*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
+/*   Updated: 2025/05/16 10:49:28 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	ft_strlen(const char *s)
+void	close_fds(t_command *cmd, int stdout_save, int stdin_save)
 {
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-int	count_args(char **arr)
-{
-	int	len;
-
-	len = 0;
-	while (arr && arr[len])
-		len++;
-	return (len);
+	if (cmd->infile != -1)
+		close(cmd->infile);
+	if (cmd->outfile != -1)
+		close(cmd->outfile);
+	if (stdin_save != -1)
+		close(stdin_save);
+	if (stdout_save != -1)
+		close(stdout_save);
 }

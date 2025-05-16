@@ -6,16 +6,16 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/12 10:01:40 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/16 10:49:04 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_redir	*new_redir_info()
+t_redir	*new_redir_info(void)
 {
 	t_redir	*redir_info;
-	
+
 	redir_info = malloc(sizeof(t_redir));
 	if (!redir_info)
 		return (NULL);
@@ -23,7 +23,7 @@ t_redir	*new_redir_info()
 	redir_info->fd[1] = -1;
 	redir_info->outfile = NULL;
 	redir_info->infile = NULL;
-	return	(redir_info);
+	return (redir_info);
 }
 
 t_command	*init_command(char **args)
