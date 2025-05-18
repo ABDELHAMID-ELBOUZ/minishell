@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/16 10:45:53 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:04:12 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef enum e_redir_type
 
 typedef struct s_redir {
 	int				fd[2];
+	char			*delimiter;
 	char			*outfile;
 	char			*infile;
 	t_redir_type	redir_type;
@@ -95,5 +96,5 @@ int			execute_command(t_command *cmd, t_env **env);
 void		free_cmd(t_command *cmd);
 int			parse_rediraction(char **args, int i, t_redir *redire_info);
 void		close_fds(t_command *cmd, int stdout_save, int stdin_save);
-
+int			handle_herdoc(t_redir *redir_info);
 #endif

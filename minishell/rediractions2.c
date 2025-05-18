@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:36:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/16 10:48:04 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:33:50 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,15 @@ int	handle_redir(t_command *cmd)
 		if (cmd->outfile == -1)
 			return (1);
 	}
-	else if (cmd->redir_info && cmd->redir_info->infile)
+	if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_IN)
 	{
 		cmd->infile = handle_in_redir(cmd->redir_info);
+		if (cmd->infile == -1)
+			return (1);
+	}
+	else if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_HEREDOC)
+	{
+		cmd->infile = handle_herdoc(cmd->redir_info);
 		if (cmd->infile == -1)
 			return (1);
 	}
@@ -88,6 +94,8 @@ int	execute_command(t_command *cmd, t_env **env)
 	dup2(stdout_save, STDOUT_FILENO);
 	dup2(stdin_save, STDIN_FILENO);
 	close_fds(cmd, stdout_save, stdin_save);
+	if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_HEREDOC)
+		unlink("/tmp/herdoc");
 	if (status != 0)
 		return (1);
 	return (0);

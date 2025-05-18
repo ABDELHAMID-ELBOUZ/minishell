@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:05:44 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/14 09:04:29 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:35:16 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	main(int ac, char **av, char **envp)
 	char		**args;
 	t_env		*env;
 	t_command	*cmd;
-	// int			last_status;
-	
+	int			last_status;
+
 	init_env(envp);
 	env = get_env(NULL);
-	// last_status = 0;
+	last_status = 0;
 	while (1)
 	{
 		input = readline("minishell> ");

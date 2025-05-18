@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/08 16:26:48 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:28:11 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,12 @@ int	ft_env(t_env *envp)
 		return (1);
 	while (envp)
 	{
-		printf("%s%s\n", envp->key, envp->value);
+		if (envp->value)
+			printf("%s", envp->key);
+		else
+			printf("%s\n", envp->key);
+		if (envp->value)
+			printf("%s\n", envp->value);
 		envp = envp->next;
 	}
 	return (0);

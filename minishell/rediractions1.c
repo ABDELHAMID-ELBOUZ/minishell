@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/16 10:49:04 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:19:02 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_redir	*new_redir_info(void)
 	redir_info->fd[1] = -1;
 	redir_info->outfile = NULL;
 	redir_info->infile = NULL;
+	redir_info->redir_type = -1;
 	return (redir_info);
 }
 
@@ -63,7 +64,7 @@ int	parse_rediraction(char **args, int i, t_redir *redire_info)
 	}
 	else if (ft_strcmp(args[i], "<<") == 0)
 	{
-		redire_info->infile = ft_strdup(args[i + 1]);
+		redire_info->delimiter = ft_strdup(args[i + 1]);
 		redire_info->redir_type = REDIR_HEREDOC;
 	}
 	else
