@@ -26,43 +26,45 @@ void	free_arr(char **arr)
 	free (arr);
 }
 
-int	main(int ac, char **av, char **envp)
+int main(int ac, char **av, char **envp)
 {
-	char		*input;
-	char		**args;
-	t_env		*env;
-	t_command	*cmd;
-	int			last_status;
+    char *input;
+    char **args;
+    t_env *env;
+    t_command **cmds;  // Changed from t_command *cmd to t_command **cmds
+    int cmd_count;     // Added to store the number of commands
+    int last_status;
 
-	init_env(envp);
-	env = get_env(NULL);
-	last_status = 0;
-	while (1)
-	{
-		input = readline("minishell> ");
-		if (!input)
-			break ;
-		if (!*input)
-		{
-			free(input);
-			continue ;
-		}
-		add_history(input);
-		args = ft_split(input, ' ');
-		free(input);
-		if (!args || !args[0])
-		{
-			free(args);
-			continue ;
-		}
-		cmd = parse_command(args);
-		if (cmd)
-		{
-			execute_command(cmd, &env);
-			free_cmd(cmd);
-		}
-		free_arr(args);
-	}
-	free_env(env);
-	rl_clear_history();
+    init_env(envp);
+    env = get_env(NULL);
+    last_status = 0;
+    while (1)
+    {
+        input = readline("minishell> ");
+        if (!input)
+            break ;
+        if (!*input)
+        {
+            free(input);
+            continue ;
+        }
+        add_history(input);
+        args = ft_split(input, ' ');
+        free(input);
+        if (!args || !args[0])
+        {
+            free(args);
+            continue ;
+        }
+        cmds = parse_command(args, &cmd_count);  // Updated with &cmd_count
+        if (cmds)
+        {
+            execute_command(cmds, &env, cmd_count);  // Updated to use cmds and cmd_count
+            // free_cmds(cmds, cmd_count);             // Updated to use cmds and cmd_count
+        }
+        free_arr(args);
+    }
+    free_env(env);
+    rl_clear_history();
+    return (last_status);
 }

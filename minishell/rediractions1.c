@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/18 13:19:02 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:11:13 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_redir	*new_redir_info(void)
 t_command	*init_command(char **args)
 {
 	t_command	*cmd;
+	int			i;
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
@@ -37,7 +38,14 @@ t_command	*init_command(char **args)
 	cmd->redir_info = new_redir_info();
 	if (!cmd->redir_info)
 		return (free(cmd), NULL);
-	cmd->args = malloc(sizeof(char *) * (count_args(args) + 1));
+	i = 0;
+	if (args)
+	{
+
+		while (args[i])
+			i++;
+	}
+	cmd->args = malloc(sizeof(char *) * (i + 1));
 	if (!cmd->args)
 		return (free(cmd->redir_info), free(cmd), NULL);
 	return (cmd);
@@ -94,31 +102,18 @@ void	free_cmd(t_command *cmd)
 	free (cmd);
 }
 
-t_command	*parse_command(char **args)
+t_command **parse_command(char **args, int *cmd_count)
 {
-	t_command	*cmd;
-	int			i;
-	int			j;
-	int			next_i;
+	t_command **cmds;
+	int count;
 
-	cmd = init_command(args);
-	if (!cmd)
+	count = 0;
+	if (count_cmd(args, &count) != 0)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (args[i])
-	{
-		next_i = parse_rediraction(args, i, cmd->redir_info);
-		if (next_i > 0)
-			i = next_i;
-		else
-		{
-			cmd->args[j++] = ft_strdup(args[i]);
-			if (!cmd->args[j - 1])
-				return (free_cmd(cmd), NULL);
-			i++;
-		}
-	}
-	cmd->args[j] = NULL;
-	return (cmd);
+	*cmd_count = count;
+	cmds = allocat_cmds(*cmd_count, args);
+	if (!cmds)
+		return (NULL);
+	parse_full_cmd(args, cmds, *cmd_count);
+	return (cmds);
 }

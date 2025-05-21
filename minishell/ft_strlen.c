@@ -21,13 +21,3 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
-
-int	count_args(char **arr)
-{
-	int	len;
-
-	len = 0;
-	while (arr && arr[len])
-		len++;
-	return (len);
-}
