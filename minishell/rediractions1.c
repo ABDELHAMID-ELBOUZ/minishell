@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/21 17:11:13 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/05/23 11:02:27 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_command	*init_command(char **args)
 	i = 0;
 	if (args)
 	{
-
 		while (args[i])
 			i++;
 	}
