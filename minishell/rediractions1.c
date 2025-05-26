@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 11:56:32 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/05/26 17:05:54 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ void	free_cmd(t_command *cmd)
 	free (cmd);
 }
 
-t_command **parse_command(char **args, int *cmd_count)
+t_command	**parse_command(char **args, int *cmd_count)
 {
-	t_command **cmds;
-	int count;
+	t_command	**cmds;
+	int			count;
 
 	count = 0;
 	if (count_cmd(args, &count) != 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:36:32 by abdelhamid        #+#    #+#             */
-/*   Updated: 2025/05/26 11:56:39 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/05/26 17:35:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,30 @@ int	count_cmd(char **args, int *cmd_count)
 	return (0);
 }
 
-t_command **allocat_cmds(int cmd_count, char **args)
+t_command	**allocat_cmds(int cmd_count, char **args)
 {
-    t_command **cmds;
-    int i;
+	t_command	**cmds;
+	int			i;
 
-    cmds = malloc(sizeof(t_command *) * (cmd_count + 1));
-    if (!cmds)
-        return (NULL);
-    i = 0;
-    while (i < cmd_count)
-    {
-        cmds[i] = init_command(args);
-        if (!cmds[i])
-            return (NULL);
-        i++;
-    }
-    cmds[i] = NULL;
-    return (cmds);
+	cmds = malloc(sizeof(t_command *) * (cmd_count + 1));
+	if (!cmds)
+		return (NULL);
+	i = 0;
+	while (i < cmd_count)
+	{
+		cmds[i] = init_command(args);
+		if (!cmds[i])
+			return (NULL);
+		i++;
+	}
+	cmds[i] = NULL;
+	return (cmds);
 }
 
 void	parse_singl_command(char **args, t_command *cmd, t_parse_info *info)
 {
 	int	next_i;
+
 	while (args[info->j] && ft_strcmp(args[info->j], "|") != 0)
 	{
 		next_i = parse_rediraction(args, info->j, cmd->redir_info);
@@ -66,46 +67,32 @@ void	parse_singl_command(char **args, t_command *cmd, t_parse_info *info)
 	}
 }
 
-void parse_cmd_pipes(char **args, t_command *cmd, t_parse_info *info)
+void	parse_cmd_pipes(char **args, t_command *cmd, t_parse_info *info)
 {
-    if (args[info->j] && ft_strcmp(args[info->j], "|") == 0)
-    {
-        args[info->j] = NULL;
-        if (cmd->redir_info->redir_type == REDIR_NON)
-            cmd->redir_info->redir_type = REDIR_PIPE;
-    }
-    cmd->args[info->k] = NULL;
-    info->start = info->j + 1;
-}
-
-void    parse_full_cmd(char **args, t_command **cmds, int cmd_count)
-{
-
-    t_parse_info info;
-
-    info.i = 0;
-    info.j = 0;
-    info.start = 0;
-    info.cmd_count = cmd_count;
-    while (info.i < cmd_count)
-    {
-        info.j = info.start;
-        info.k = 0;
-        parse_singl_command(args, cmds[info.i], &info);
-        parse_cmd_pipes(args, cmds[info.i], &info);
-        info.i++;
-    }
-}
-
-void	free_cmds(t_command **cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds[i])
+	if (args[info->j] && ft_strcmp(args[info->j], "|") == 0)
 	{
-		free_cmd(cmds[i]);
-		i++;
+		args[info->j] = NULL;
+		if (cmd->redir_info->redir_type == REDIR_NON)
+			cmd->redir_info->redir_type = REDIR_PIPE;
 	}
-	free(cmds);
+	cmd->args[info->k] = NULL;
+	info->start = info->j + 1;
+}
+
+void	parse_full_cmd(char **args, t_command **cmds, int cmd_count)
+{
+	t_parse_info	info;
+
+	info.i = 0;
+	info.j = 0;
+	info.start = 0;
+	info.cmd_count = cmd_count;
+	while (info.i < cmd_count)
+	{
+		info.j = info.start;
+		info.k = 0;
+		parse_singl_command(args, cmds[info.i], &info);
+		parse_cmd_pipes(args, cmds[info.i], &info);
+		info.i++;
+	}
 }
