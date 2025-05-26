@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/24 14:25:11 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/05/26 11:56:28 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_env {
 
 typedef enum e_redir_type
 {
+	REDIR_NON,
 	REDIR_OUT,
 	REDIR_IN,
 	REDIR_APPEND,

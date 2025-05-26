@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:36:32 by abdelhamid        #+#    #+#             */
-/*   Updated: 2025/05/24 10:39:15 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/05/26 11:56:39 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void parse_cmd_pipes(char **args, t_command *cmd, t_parse_info *info)
     if (args[info->j] && ft_strcmp(args[info->j], "|") == 0)
     {
         args[info->j] = NULL;
-        cmd->redir_info->redir_type = REDIR_PIPE;
+        if (cmd->redir_info->redir_type == REDIR_NON)
+            cmd->redir_info->redir_type = REDIR_PIPE;
     }
     cmd->args[info->k] = NULL;
     info->start = info->j + 1;

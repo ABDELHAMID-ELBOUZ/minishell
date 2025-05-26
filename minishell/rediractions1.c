@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/23 11:02:27 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/05/26 11:56:32 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_redir	*new_redir_info(void)
 	redir_info->fd[1] = -1;
 	redir_info->outfile = NULL;
 	redir_info->infile = NULL;
-	redir_info->redir_type = -1;
+	redir_info->redir_type = REDIR_NON;
 	return (redir_info);
 }
 
