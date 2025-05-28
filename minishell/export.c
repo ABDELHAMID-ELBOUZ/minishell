@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 16:49:44 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:53:16 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_valide_args(char *key)
 	if (!*key || !key || ft_isdigit(key[0]))
 		return (0);
 	i = 0;
-	while (key[i] && key[i] != '=')
+	while (key[i] && key[i] != '=' && key[i] != '+')
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
 			return (0);
@@ -39,9 +39,9 @@ void	print_export(t_env *env)
 		return ;
 	while (sorted)
 	{
-		if (!sorted->value)
+		if (!sorted->value && ft_strcmp(sorted->key, "_=") != 0)
 			printf("declare -x %s\n", sorted->key);
-		else
+		else if (ft_strcmp(sorted->key, "_=") != 0)
 			printf("declare -x %s\"%s\"\n", sorted->key, sorted->value);
 		sorted = sorted->next;
 	}

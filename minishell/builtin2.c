@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 16:51:13 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:48:25 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_env(t_env *envp)
 	{
 		if (envp->value)
 			printf("%s", envp->key);
-		else
+		else if (envp->key[ft_strlen(envp->key) - 1] == '=')
 			printf("%s\n", envp->key);
 		if (envp->value)
 			printf("%s\n", envp->value);

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 17:30:15 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:54:24 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,6 @@ int	handle_herdoc(t_redir *redir_info)
 	if (fd == -1)
 		return (perror("minishell: open"), -1);
 	return (fd);
-}
-
-int	setup_io(t_execution_info *info)
-{
-	info->stdin_save = dup(STDIN_FILENO);
-	info->stdout_save = dup(STDOUT_FILENO);
-	if (info->stdin_save == -1 || info->stdout_save == -1)
-		return (perror("minishell: dup"), 1);
-	return (0);
 }
 
 int	execute_with_setup(t_command **cmds, t_command *cmd, \

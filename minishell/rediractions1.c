@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 17:05:54 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:01:59 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,10 @@ t_command	**parse_command(char **args, int *cmd_count)
 	if (!cmds)
 		return (NULL);
 	parse_full_cmd(args, cmds, *cmd_count);
+	if (cmds[0] == NULL)
+	{
+		free(cmds);
+		return (NULL);
+	}
 	return (cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:36:32 by abdelhamid        #+#    #+#             */
-/*   Updated: 2025/05/26 17:35:49 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:52:31 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,16 @@ void	parse_singl_command(char **args, t_command *cmd, t_parse_info *info)
 		{
 			cmd->args[info->k] = ft_strdup(args[info->j]);
 			if (!cmd->args[info->k])
+			{
+				while (info->k > 0)
+				{
+					free(cmd->args[info->k]);
+					(info->k)--;
+				}
+				free(cmd->args);
+				cmd->args = NULL;
 				return ;
+			}
 			(info->k)++;
 			(info->j)++;
 		}
@@ -92,6 +101,17 @@ void	parse_full_cmd(char **args, t_command **cmds, int cmd_count)
 		info.j = info.start;
 		info.k = 0;
 		parse_singl_command(args, cmds[info.i], &info);
+		if (!cmds[info.i]->args)
+		{
+			while (info.i > 0)
+			{
+				free_cmd(cmds[info.i]);
+				(info.i)--;
+			}
+			free(cmds);
+			cmds = NULL;
+			return (free_arr(args));
+		}
 		parse_cmd_pipes(args, cmds[info.i], &info);
 		info.i++;
 	}

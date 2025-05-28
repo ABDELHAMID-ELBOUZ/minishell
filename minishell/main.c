@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:05:44 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 17:37:23 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:40:09 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,18 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);
 		args = ft_split(input, ' ');
-		free(input);
 		if (!args || !args[0])
 		{
 			free(args);
 			continue ;
 		}
+		free(input);
 		cmds = parse_command(args, &cmd_count);
 		if (cmds)
+		{
 			execute_commands(cmds, &env, cmd_count);
+			free_cmds(cmds);
+		}
 		free_arr(args);
 	}
 	free_env(env);

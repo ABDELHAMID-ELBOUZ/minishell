@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 16:51:09 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 09:10:44 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	updat_env(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
 
+	if (ft_strchr(key, '+'))
+		return (handl_plus(env, key, value));
 	if (find_and_update(env, key, value))
 		return ;
 	tmp = malloc(sizeof(t_env));

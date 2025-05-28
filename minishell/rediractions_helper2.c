@@ -6,37 +6,46 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 17:36:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 12:53:58 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	setup_io(t_execution_info *info)
+{
+	info->stdin_save = dup(STDIN_FILENO);
+	info->stdout_save = dup(STDOUT_FILENO);
+	if (info->stdin_save == -1 || info->stdout_save == -1)
+		return (perror("minishell: dup"), 1);
+	return (0);
+}
+
 int	execute_single_command(t_command *cmd, t_env **env)
 {
 	t_execution_info	info;
-	int					status;
 	char				*env_path;
 
 	info.status = -1;
-	info.stdout_save = -1;
-	info.stdin_save = -1;
+	info.stdout_save = dup(STDOUT_FILENO);
+	info.stdin_save = dup(STDIN_FILENO);
 	if (handle_redir(cmd) != 0)
 		return (1);
 	if (cmd->outfile != -1 && dup2(cmd->outfile, STDOUT_FILENO) == -1)
 		return (perror("minishell: dup2"), 1);
-	if (cmd->infile != -1 && dup2(cmd->infile, STDIN_FILENO) == -1)
+	else if (cmd->infile != -1 && dup2(cmd->infile, STDIN_FILENO) == -1)
 		return (perror("minishell: dup2"), 1);
 	env_path = getenv("PATH");
 	if (env_path)
-		status = is_builtin(cmd->args[0], cmd->args, env_path, env);
+		info.status = is_builtin(cmd->args[0], cmd->args, env_path, env);
 	else
-		status = 1;
-	info.status = status;
-	if (cmd->outfile != -1)
-		close(cmd->outfile);
-	if (cmd->infile != -1)
-		close(cmd->infile);
+		info.status = 1;
+	dup2(info.stdout_save, STDOUT_FILENO);
+	dup2(info.stdin_save, STDIN_FILENO);
+	close_fds(cmd, info.stdout_save, info.stdin_save);
+	if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_HEREDOC)
+		unlink("/tmp/herdoc");
+	close_fds(cmd, info.stdout_save, info.stdout_save);
 	return (info.status);
 }
 

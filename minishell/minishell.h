@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 17:33:23 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/28 10:07:11 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,6 @@ int			handle_redir(t_command *cmd);
 int			execute_multiple_commands(t_command **cmds, t_env **env, \
 			int cmd_count, t_execution_info *info);
 int			execute_single_command(t_command *cmd, t_env **env);
+void		handl_plus(t_env **env, char *key, char *value);
+int			setup_io(t_execution_info *info);
 #endif
