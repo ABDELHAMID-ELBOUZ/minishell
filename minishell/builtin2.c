@@ -6,11 +6,27 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/28 12:48:25 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:15:21 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_n_flag(char *str)
+{
+	int	i;
+
+	if (!str || str[0] != '-')
+		return (1);
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 int	ft_echo(char **args)
 {
@@ -21,7 +37,7 @@ int	ft_echo(char **args)
 		return (1);
 	i = 1;
 	no_new_line = 1;
-	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+	while (args[i] && is_n_flag(args[i]) == 0)
 	{
 		no_new_line = 0;
 		i++;

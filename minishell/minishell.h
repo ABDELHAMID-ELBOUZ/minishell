@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/28 10:07:11 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:59:26 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_command	*init_command(char **args);
 int			parse_rediraction(char **args, int i, t_redir *redire_info);
 void		free_cmds(t_command **cmds);
 t_command	**allocat_cmds(int cmd_count, char **args);
-int			count_cmd(char **args, int *cmd_count);
+void		count_cmd(char **args, int *cmd_count);
 void		parse_full_cmd(char **args, t_command **cmds, int cmd_count);
 int			execute_with_setup(t_command **cmds, t_command *cmd, \
 			t_execution_info *info, char *env_path);
@@ -134,4 +134,5 @@ int			execute_multiple_commands(t_command **cmds, t_env **env, \
 int			execute_single_command(t_command *cmd, t_env **env);
 void		handl_plus(t_env **env, char *key, char *value);
 int			setup_io(t_execution_info *info);
+char		*get_my_env(char *name, t_env *env);
 #endif

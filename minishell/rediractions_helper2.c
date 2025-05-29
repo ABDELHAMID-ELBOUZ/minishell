@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/28 12:53:58 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:12:41 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,10 @@ int	execute_single_command(t_command *cmd, t_env **env)
 		return (perror("minishell: dup2"), 1);
 	else if (cmd->infile != -1 && dup2(cmd->infile, STDIN_FILENO) == -1)
 		return (perror("minishell: dup2"), 1);
-	env_path = getenv("PATH");
-	if (env_path)
-		info.status = is_builtin(cmd->args[0], cmd->args, env_path, env);
-	else
-		info.status = 1;
+	env_path = get_my_env("PATH", *env);
+	info.status = is_builtin(cmd->args[0], cmd->args, env_path, env);
 	dup2(info.stdout_save, STDOUT_FILENO);
 	dup2(info.stdin_save, STDIN_FILENO);
-	close_fds(cmd, info.stdout_save, info.stdin_save);
 	if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_HEREDOC)
 		unlink("/tmp/herdoc");
 	close_fds(cmd, info.stdout_save, info.stdout_save);
@@ -54,12 +50,12 @@ int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
 {
 	char	*env_path;
 
-	env_path = getenv("PATH");
-	info->i = -1;
+	env_path = get_my_env("PATH", *env);
+	info->i = 0;
 	info->cmd_count = cmd_count;
 	info->status = -1;
 	info->env = env;
-	while (++(info->i) < info->cmd_count)
+	while (info->i < info->cmd_count)
 	{
 		if (execute_with_setup(cmds, cmds[info->i], info, env_path) != 0)
 			return (1);
@@ -67,6 +63,7 @@ int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
 			close(cmds[info->i - 1]->redir_info->fd[0]);
 		if (info->i < info->cmd_count - 1)
 			close(cmds[info->i]->redir_info->fd[1]);
+		(info->i)++;
 	}
 	cleanup_execution(cmds, cmd_count, info);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/28 12:54:24 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:24:12 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,25 @@ void	close_fds(t_command *cmd, int stdout_save, int stdin_save)
 		close(stdin_save);
 	if (stdout_save != -1)
 		close(stdout_save);
+}
+
+char	*get_my_env(char *name, t_env *env)
+{
+	t_env	*tmp;
+	char	*key;
+
+	if (!name || !env)
+		return (NULL);
+	tmp = env;
+	while (tmp)
+	{
+		key = ft_strtrim(tmp->key, "=");
+		if (ft_strcmp(key, name) == 0)
+			return (free(key), tmp->value);
+		tmp = tmp->next;
+		free(key);
+	}
+	return (NULL);
 }
 
 int	handle_herdoc(t_redir *redir_info)
@@ -74,7 +93,7 @@ int	execute_with_setup(t_command **cmds, t_command *cmd, \
 		if (!env_path)
 			exit(1);
 		info->status = is_builtin(cmd->args[0], cmd->args, env_path, info->env);
-		exit(info->status);
+		exit(EXIT_SUCCESS);
 	}
 	waitpid(-1, &info->status, 0);
 	return (0);
@@ -82,8 +101,6 @@ int	execute_with_setup(t_command **cmds, t_command *cmd, \
 
 int	cleanup_execution(t_command **cmds, int cmd_count, t_execution_info *info)
 {
-	while (wait(NULL) != -1 || errno != ECHILD)
-		;
 	if (info->stdout_save != -1)
 		dup2(info->stdout_save, STDOUT_FILENO);
 	if (info->stdin_save != -1)

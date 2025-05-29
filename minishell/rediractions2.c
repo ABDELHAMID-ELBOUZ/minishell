@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:36:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/26 17:32:57 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:26:14 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ int	execute_commands(t_command **cmds, t_env **env, int cmd_count)
 
 	if (!cmds || cmd_count <= 0)
 		return (1);
-	info.i = -1;
-	info.cmd_count = cmd_count;
-	info.status = -1;
 	info.stdout_save = -1;
 	info.stdin_save = -1;
 	if (cmd_count == 1)

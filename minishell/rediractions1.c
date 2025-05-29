@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/28 11:01:59 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:31:08 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_redir	*new_redir_info(void)
 	redir_info->fd[1] = -1;
 	redir_info->outfile = NULL;
 	redir_info->infile = NULL;
+	redir_info->delimiter = NULL;
 	redir_info->redir_type = REDIR_NON;
 	return (redir_info);
 }
@@ -86,7 +87,7 @@ void	free_cmd(t_command *cmd)
 	if (!cmd)
 		return ;
 	i = 0;
-	while (cmd->args && cmd->args[i])
+	while (cmd->args[i])
 	{
 		free(cmd->args[i]);
 		i++;
@@ -107,17 +108,11 @@ t_command	**parse_command(char **args, int *cmd_count)
 	int			count;
 
 	count = 0;
-	if (count_cmd(args, &count) != 0)
-		return (NULL);
+	count_cmd(args, &count);
 	*cmd_count = count;
 	cmds = allocat_cmds(*cmd_count, args);
 	if (!cmds)
 		return (NULL);
 	parse_full_cmd(args, cmds, *cmd_count);
-	if (cmds[0] == NULL)
-	{
-		free(cmds);
-		return (NULL);
-	}
 	return (cmds);
 }
