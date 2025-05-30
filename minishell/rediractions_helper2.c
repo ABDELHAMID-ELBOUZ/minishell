@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 12:12:41 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 09:08:55 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	execute_single_command(t_command *cmd, t_env **env)
 	else if (cmd->infile != -1 && dup2(cmd->infile, STDIN_FILENO) == -1)
 		return (perror("minishell: dup2"), 1);
 	env_path = get_my_env("PATH", *env);
+	if (env_path == NULL)
+		env_path = NULL;
 	info.status = is_builtin(cmd->args[0], cmd->args, env_path, env);
 	dup2(info.stdout_save, STDOUT_FILENO);
 	dup2(info.stdin_save, STDIN_FILENO);
@@ -51,6 +53,8 @@ int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
 	char	*env_path;
 
 	env_path = get_my_env("PATH", *env);
+	if (env_path == NULL)
+		env_path = NULL;
 	info->i = 0;
 	info->cmd_count = cmd_count;
 	info->status = -1;

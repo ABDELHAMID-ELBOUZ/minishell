@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 12:04:09 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 12:06:31 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_cd(char **args, t_env **env)
 	if (!path || ft_strcmp(path, "~") == 0)
 		path = get_my_env("HOME", *env);
 	if (!path)
-		return (free(oldpwd), 1);
+		return (free(oldpwd), ft_putstr_fd("cd: HOME not set\n", 2), 1);
 	if (chdir(path) == -1)
 		return (ft_putstr_fd("cd: ", 2), write(2, path, ft_strlen(path)), \
 		ft_putstr_fd(" No such file or directory\n", 2), free(oldpwd), 1);

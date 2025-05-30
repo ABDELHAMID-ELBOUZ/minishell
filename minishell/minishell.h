@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 11:59:26 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 12:14:14 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,5 @@ int			execute_single_command(t_command *cmd, t_env **env);
 void		handl_plus(t_env **env, char *key, char *value);
 int			setup_io(t_execution_info *info);
 char		*get_my_env(char *name, t_env *env);
+t_env		*init_default_env(t_env **env);
 #endif

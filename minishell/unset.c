@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 10:48:26 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 12:25:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 09:31:20 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	is_valide_unset(char *key)
 
 int	unset_var(char *key, t_env **env)
 {
-	t_env	*tmp;
 	t_env	*current;
 	t_env	*previous;
 	char	*clean_key;
@@ -46,9 +45,8 @@ int	unset_var(char *key, t_env **env)
 				previous->next = current->next;
 			else
 				*env = current->next;
-			tmp = current;
-			current = current->next;
-			return (free_env(tmp), free(clean_key), 0);
+			return (free(current->key), free(current->value), \
+			free(current), free(clean_key), 0);
 		}
 		free(clean_key);
 		previous = current;

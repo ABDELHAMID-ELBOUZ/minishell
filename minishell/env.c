@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:15:39 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/12 09:43:54 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 09:10:31 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	init_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		env = new_node(envp[i], env);
+		if (envp[i])
+			env = new_node(envp[i], env);
 		if (!env)
 			return (free_env(env));
 		i++;

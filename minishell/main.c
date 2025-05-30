@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 11:05:44 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 08:59:14 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 12:15:05 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	main(int ac, char **av, char **envp)
 
 	init_env(envp);
 	env = get_env(NULL);
+	if (!env)
+		env = get_env(init_default_env(&env));
 	last_status = 0;
 	while (1)
 	{

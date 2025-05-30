@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 11:10:26 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:41:19 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	check_executable(char *cmd, char *env_path, char **full_path)
 	if (!cmd)
 		return (127);
 	if (cmd[0] == '/' || ft_strcmp(cmd, "../") == 0 \
-		|| ft_strcmp(cmd, "./") == 0)
+		|| (cmd[0] == '.' && cmd[1] == '/'))
 	{
 		if (access(cmd, F_OK) != 0)
 			return (127);
@@ -86,7 +86,10 @@ int	check_executable(char *cmd, char *env_path, char **full_path)
 		}
 		return (126);
 	}
-	*full_path = find_executable(cmd, env_path);
+	if (env_path)
+		*full_path = find_executable(cmd, env_path);
+	else
+		*full_path = ft_strjoin("./", cmd);
 	if (!*full_path)
 		return (127);
 	return (0);
@@ -102,7 +105,10 @@ int	check_status( char **args, char *env_path, char **full_path)
 	if (status == 127)
 	{
 		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(" minishell : command not found\n", 2);
+		if (env_path)
+			ft_putstr_fd(" minishell : command not found\n", 2);
+		else
+			ft_putstr_fd(" minishell : No such file or directory\n", 2);
 	}
 	else if (status == 126)
 		ft_putstr_fd("minishell : permission denied\n", 2);
