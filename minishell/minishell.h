@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/30 12:14:14 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/01 20:17:34 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,5 @@ void		handl_plus(t_env **env, char *key, char *value);
 int			setup_io(t_execution_info *info);
 char		*get_my_env(char *name, t_env *env);
 t_env		*init_default_env(t_env **env);
+int			handle_out_redir(t_redir *redir_info);
 #endif

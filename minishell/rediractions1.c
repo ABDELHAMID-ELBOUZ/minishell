@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 11:31:08 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/01 20:19:00 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,15 @@ t_command	*init_command(char **args)
 
 int	parse_rediraction(char **args, int i, t_redir *redire_info)
 {
-	if (!args[i] || !args[i + 1])
-		return (-1);
 	if (ft_strcmp(args[i], ">") == 0)
 	{
+		handle_out_redir(redire_info);
 		redire_info->outfile = ft_strdup(args[i + 1]);
 		redire_info->redir_type = REDIR_OUT;
 	}
 	else if (ft_strcmp(args[i], ">>") == 0)
 	{
+		handle_out_redir(redire_info);
 		redire_info->outfile = ft_strdup(args[i + 1]);
 		redire_info->redir_type = REDIR_APPEND;
 	}
