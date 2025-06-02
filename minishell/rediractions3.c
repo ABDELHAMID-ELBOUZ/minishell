@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 12:24:12 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:52:44 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	handle_herdoc(t_redir *redir_info)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	free(redir_info->delimiter);
 	close(fd);
 	fd = open("/tmp/herdoc", O_RDONLY);
 	if (fd == -1)

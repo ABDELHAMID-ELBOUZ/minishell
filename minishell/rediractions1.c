@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:36:15 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/01 20:19:00 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/02 10:52:34 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	free_cmd(t_command *cmd)
 	{
 		free(cmd->redir_info->infile);
 		free(cmd->redir_info->outfile);
+		free(cmd->redir_info->delimiter);
 		free(cmd->redir_info);
 	}
 	free (cmd);
