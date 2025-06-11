@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:21:20 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/01 20:17:34 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/09 11:51:21 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,28 @@ typedef struct s_env {
 	struct s_env	*next;
 }	t_env;
 
-typedef enum e_redir_type
-{
-	REDIR_NON,
-	REDIR_OUT,
-	REDIR_IN,
-	REDIR_APPEND,
-	REDIR_HEREDOC,
-	REDIR_PIPE
-}	t_redir_type;
+typedef enum e_token_type {
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_REDIR_APPEND,
+	TOKEN_HEREDOC,
+	TOKEN_EOF
+}	t_token_type;
 
-typedef struct s_redir {
-	int				fd[2];
-	char			*delimiter;
-	char			*outfile;
-	char			*infile;
-	t_redir_type	redir_type;
-}	t_redir;
+typedef struct	s_redirect {
+	t_token_type	type;
+	char	*file;
+	int 	fd[2];
+	struct s_redirect	*next;
+}	t_redirect;
 
-typedef struct s_command {
+typedef struct	s_command {
 	char	**args;
-	int		infile;
-	int		outfile;
-	t_redir	*redir_info;
+	t_redirect	*redirects;
+	int				file;
+	struct s_command	*next;
 }	t_command;
 
 typedef struct s_execution_info
@@ -115,11 +114,11 @@ int			count_args(char **arr);
 t_command	**parse_command(char **args, int *cmd_count);
 int			execute_commands(t_command **cmds, t_env **env, int cmd_count);
 void		free_cmd(t_command *cmd);
-int			parse_rediraction(char **args, int i, t_redir *redire_info);
+int			parse_rediraction(char **args, int i, t_redirect *redire_info);
 void		close_fds(t_command *cmd, int stdout_save, int stdin_save);
-int			handle_herdoc(t_redir *redir_info);
+int			handle_herdoc(t_redirect *redir_info);
 t_command	*init_command(char **args);
-int			parse_rediraction(char **args, int i, t_redir *redire_info);
+int			parse_rediraction(char **args, int i, t_redirect *redire_info);
 void		free_cmds(t_command **cmds);
 t_command	**allocat_cmds(int cmd_count, char **args);
 void		count_cmd(char **args, int *cmd_count);
@@ -136,5 +135,5 @@ void		handl_plus(t_env **env, char *key, char *value);
 int			setup_io(t_execution_info *info);
 char		*get_my_env(char *name, t_env *env);
 t_env		*init_default_env(t_env **env);
-int			handle_out_redir(t_redir *redir_info);
+int			handle_out_redir(t_redirect *redir_info);
 #endif

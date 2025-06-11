@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions_helper.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:36:32 by abdelhamid        #+#    #+#             */
-/*   Updated: 2025/05/29 09:19:32 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/09 21:27:23 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	parse_singl_command(char **args, t_command *cmd, t_parse_info *info)
 
 	while (args[info->j] && ft_strcmp(args[info->j], "|") != 0)
 	{
-		next_i = parse_rediraction(args, info->j, cmd->redir_info);
+		next_i = parse_rediraction(args, info->j, cmd->redirects);
 		if (next_i > 0)
 			info->j = next_i;
 		else
@@ -70,8 +70,7 @@ void	parse_cmd_pipes(char **args, t_command *cmd, t_parse_info *info)
 {
 	if (args[info->j] && ft_strcmp(args[info->j], "|") == 0)
 	{
-		if (cmd->redir_info->redir_type == REDIR_NON)
-			cmd->redir_info->redir_type = REDIR_PIPE;
+			cmd->redirects->type = TOKEN_PIPE;
 	}
 	cmd->args[info->k] = NULL;
 	info->start = info->j + 1;

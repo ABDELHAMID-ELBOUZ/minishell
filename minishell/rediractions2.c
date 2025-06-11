@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:36:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/05/29 11:26:14 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/09 11:52:40 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_out_redir(t_redir *redir_info)
+int	handle_out_redir(t_redirect *redir_info)
 {
 	int	fd;
 
-	if (!redir_info || !redir_info->outfile)
+	if (!redir_info || !redir_info->file)
 		return (-1);
-	if (redir_info->redir_type == REDIR_OUT)
-		fd = open(redir_info->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else if (redir_info->redir_type == REDIR_APPEND)
-		fd = open(redir_info->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (redir_info->type == TOKEN_REDIR_OUT)
+		fd = open(redir_info->file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else if (redir_info->type == TOKEN_REDIR_APPEND)
+		fd = open(redir_info->file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else
 		return (-1);
 	if (fd == -1)
@@ -29,13 +29,13 @@ int	handle_out_redir(t_redir *redir_info)
 	return (fd);
 }
 
-int	handle_in_redir(t_redir *redir_info)
+int	handle_in_redir(t_redirect *redir_info)
 {
 	int	fd;
 
-	if (!redir_info || !redir_info->infile)
+	if (!redir_info || !redir_info->file)
 		return (-1);
-	fd = open(redir_info->infile, O_RDONLY);
+	fd = open(redir_info->file, O_RDONLY);
 	if (fd == -1)
 		return (perror("minishell : open"), -1);
 	return (fd);
@@ -43,24 +43,17 @@ int	handle_in_redir(t_redir *redir_info)
 
 int	handle_redir(t_command *cmd)
 {
-	cmd->outfile = -1;
-	cmd->infile = -1;
-	if (cmd->redir_info && cmd->redir_info->outfile)
+	cmd->file = -1;
+	if (cmd->redirects && cmd->redirects->file)
 	{
-		cmd->outfile = handle_out_redir(cmd->redir_info);
-		if (cmd->outfile == -1)
+		cmd->file = handle_out_redir(cmd->redirects);
+		if (cmd->file == -1)
 			return (1);
 	}
-	if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_IN)
+	if (cmd->redirects && cmd->redirects->type == TOKEN_REDIR_IN)
 	{
-		cmd->infile = handle_in_redir(cmd->redir_info);
-		if (cmd->infile == -1)
-			return (1);
-	}
-	else if (cmd->redir_info && cmd->redir_info->redir_type == REDIR_HEREDOC)
-	{
-		cmd->infile = handle_herdoc(cmd->redir_info);
-		if (cmd->infile == -1)
+		cmd->file = handle_in_redir(cmd->redirects);
+		if (cmd->file == -1)
 			return (1);
 	}
 	return (0);
