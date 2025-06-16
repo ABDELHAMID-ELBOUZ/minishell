@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:52:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 19:54:10 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	ft_cd(char **args, t_env **env)
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
 		return (free(oldpwd), 1);
-	updat_env(env, "OLDPWD=", oldpwd);
-	updat_env(env, "PWD=", newpwd);
+	updat_env(env, "OLDPWD", oldpwd);
+	updat_env(env, "PWD", newpwd);
 	return (free(oldpwd), free(newpwd), 0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:52:29 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 19:51:24 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	print_export(t_env *env)
 		if (!sorted->value && ft_strcmp(sorted->key, "_=") != 0)
 			printf("declare -x %s\n", sorted->key);
 		else if (ft_strcmp(sorted->key, "_=") != 0)
-			printf("declare -x %s\"%s\"\n", sorted->key, sorted->value);
+			printf("declare -x %s=\"%s\"\n", sorted->key, sorted->value);
 		sorted = sorted->next;
 	}
 	free_env(sorted);
@@ -63,7 +63,7 @@ int	handl_export_args(char *arg, t_env **env)
 	eq = ft_strchr(arg, '=');
 	if (eq)
 	{
-		key = ft_substr(arg, 0, eq - arg + 1);
+		key = ft_substr(arg, 0, eq - arg );
 		if (!key)
 			return (1);
 		value = ft_substr(eq + 1, 0, ft_strlen(eq));
