@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 16:55:19 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 20:30:54 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_env(t_env *envp)
 	while (envp)
 	{
 		if (envp->value)
-			printf("%s", envp->key);
+			printf("%s=", envp->key);
 		else if (envp->key[ft_strlen(envp->key) - 1] == '=')
 			printf("%s\n", envp->key);
 		if (envp->value)
