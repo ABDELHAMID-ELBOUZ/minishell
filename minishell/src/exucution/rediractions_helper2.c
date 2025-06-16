@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:54:15 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 17:55:53 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,16 @@ int	execute_single_command(t_command *cmd, t_env **env)
 	info.stdin_save = dup(STDIN_FILENO);
 	if (handle_redir(cmd) != 0)
 		return (1);
-	if (cmd->file != -1 && dup2(cmd->file, STDOUT_FILENO) == -1)
-		return (perror("minishell: dup2"), 1);
-	else if (cmd->file != -1 && dup2(cmd->file, STDIN_FILENO) == -1)
-		return (perror("minishell: dup2"), 1);
+	if (cmd->file != -1)
+	{
+		if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_OUT \
+			|| cmd->redirects->type == TOKEN_REDIR_APPEND) \
+			&& dup2(cmd->file, STDOUT_FILENO) == -1)
+			return (perror("minishell: dup2"), 1);
+		if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_IN) \
+		&& dup2(cmd->file, STDIN_FILENO) == -1)
+			return (perror("minishell: dup2"), 1);
+	}
 	env_path = get_my_env("PATH", *env);
 	if (env_path == NULL)
 		env_path = NULL;

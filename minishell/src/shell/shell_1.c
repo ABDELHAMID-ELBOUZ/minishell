@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:14:52 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/13 10:37:25 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 17:54:54 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
+	init_env(envp);
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
 	shell->tokens = NULL;
 	shell->commands = NULL;
 	shell->env = init_env(envp);
+	if (!shell->env)
+		shell->env = get_env(init_default_env(&shell->env));
 	shell->exit_status = 0;
 	shell->running = 1;
 	shell->heredoc_sigint = 0;

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:54:24 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 18:03:07 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,16 @@ int	execute_with_setup(t_command **cmds, t_command *cmd, \
 			dup2(cmd->fd[1], STDOUT_FILENO);
 		if (handle_redir(cmd) != 0)
 			exit(1);
-		if (cmd->file != -1 && dup2(cmd->file, STDOUT_FILENO) == -1)
-			exit(1);
-		if (cmd->file != -1 && dup2(cmd->file, STDIN_FILENO) == -1)
-			exit(1);
+		if (cmd->file != -1)
+		{
+			if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_OUT || \
+				cmd->redirects->type == TOKEN_REDIR_APPEND) && \
+				dup2(cmd->file, STDOUT_FILENO) == -1)
+				exit(1);
+			if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_IN) \
+			&& dup2(cmd->file, STDIN_FILENO) == -1)
+				exit(1);
+		}
 		if (!env_path)
 			exit(1);
 		info->status = is_builtin(cmd->args[0], cmd->args, env_path, info->env);

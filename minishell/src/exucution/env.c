@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 10:15:39 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:52:20 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:52:03 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,20 @@ t_env	*new_node(char *envp, t_env *env)
 	return (new);
 }
 
-void	init_env1(char **envp)
-{
-	int		i;
-	t_env	*env;
+// void	init_env(char **envp)
+// {
+// 	int		i;
+// 	t_env	*env;
 
-	env = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		if (envp[i])
-			env = new_node(envp[i], env);
-		if (!env)
-			return (free_env(env));
-		i++;
-	}
-	get_env(env);
-}
+// 	env = NULL;
+// 	i = 0;
+// 	while (envp[i])
+// 	{
+// 		if (envp[i])
+// 			env = new_node(envp[i], env);
+// 		if (!env)
+// 			return (free_env(env));
+// 		i++;
+// 	}
+// 	get_env(env);
+// }

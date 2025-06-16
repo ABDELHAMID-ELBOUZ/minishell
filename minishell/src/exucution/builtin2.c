@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:52:09 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:55:19 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,6 @@ int	ft_echo(char **args)
 
 int	ft_env(t_env *envp)
 {
-	envp = get_env(NULL);
-	if (!envp)
-		return (1);
 	while (envp)
 	{
 		if (envp->value)

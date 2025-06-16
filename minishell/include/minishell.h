@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/13 10:38:59 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 16:51:01 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ int				ft_exit(char **args);
 char			*find_executable(char *cmd, char *path_env);
 int				is_not_builtin(char **args, char *env_path);
 char			**env_to_array(t_env *env);
-void			init_env1(char **envp);
+// void			init_env(char **envp);
 void			free_env(t_env *env);
 t_env			*get_env(t_env *new_env);
 int				ft_cd(char **args, t_env **env);

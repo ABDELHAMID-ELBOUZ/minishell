@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:36:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:53:05 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/16 18:02:21 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,25 @@ int	handle_in_redir(t_redirect *redir_info)
 
 int	handle_redir(t_command *cmd)
 {
+	t_redirect	*redir;
+	int			in_fd;
+	int			out_fd;
+
+	in_fd = -1;
+	out_fd = -1;
 	cmd->file = -1;
-	if (cmd->redirects && cmd->redirects->file)
+	redir = cmd->redirects;
+	while (redir)
 	{
-		cmd->file = handle_out_redir(cmd->redirects);
-		if (cmd->file == -1)
-			return (1);
+		if (redir->type == TOKEN_REDIR_OUT || redir->type == TOKEN_REDIR_APPEND)
+			out_fd = handle_out_redir(redir);
+		else if (redir->type == TOKEN_REDIR_IN)
+			in_fd = handle_in_redir(redir);
+		redir = redir->next;
 	}
-	if (cmd->redirects && cmd->redirects->type == TOKEN_REDIR_IN)
-	{
-		cmd->file = handle_in_redir(cmd->redirects);
-		if (cmd->file == -1)
-			return (1);
-	}
+	if (out_fd != -1)
+		cmd->file = out_fd;
+	else if (in_fd != -1)
+		cmd->file = in_fd;
 	return (0);
 }
-
-// int	execute_commands(t_command **cmds, t_env **env, int cmd_count)
-// {
-// 	t_execution_info	info;
-
-// 	if (!cmds || cmd_count <= 0)
-// 		return (1);
-// 	info.stdout_save = -1;
-// 	info.stdin_save = -1;
-// 	if (cmd_count == 1)
-// 		return (execute_single_command(cmds[0], env));
-// 	return (execute_multiple_commands(cmds, env, cmd_count, &info));
-// }
