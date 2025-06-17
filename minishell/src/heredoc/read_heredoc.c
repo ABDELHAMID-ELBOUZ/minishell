@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:55:05 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/17 13:26:15 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:18:25 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	read_heredoc_input(char *delimiter, int expand, t_shell *shell)
 		line = process_heredoc_line(line, expand, shell);
 		write_line_to_file(fd, line);
 		free(line);
-		free(delimiter);
+		// free(delimiter);
 	}
 	signal(SIGINT, sigint_handler);
 	return (close(fd), SUCCESS);

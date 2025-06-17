@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exucutable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:53:58 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 16:01:57 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,13 @@ char	*find_executable(char *cmd, char *env_path)
 	char	*tmp;
 	int		i;
 
-	if (!env_path || !cmd || !*env_path)
-		return (NULL);
 	dirs = ft_split(env_path, ':');
 	if (!dirs)
 		return (NULL);
 	i = 0;
-	while (dirs[++i])
+	while (dirs[i])
 	{
-		tmp = ft_strjoin(dirs[i], "/");
+		tmp = ft_strjoin(dirs[i], "/");	
 		if (!tmp)
 			return (free_arr(dirs), NULL);
 		full_path = ft_strjoin(tmp, cmd);
@@ -63,6 +61,7 @@ char	*find_executable(char *cmd, char *env_path)
 			return (free_arr(dirs), NULL);
 		if (access(full_path, X_OK) == 0)
 			return (free_arr(dirs), full_path);
+		i++;
 		free(full_path);
 	}
 	return (free_arr(dirs), NULL);
