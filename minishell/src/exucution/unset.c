@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 10:48:26 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:53:10 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:37:34 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,20 @@ int	unset_var(char *key, t_env **env)
 {
 	t_env	*current;
 	t_env	*previous;
-	char	*clean_key;
 
 	current = *env;
 	previous = NULL;
 	while (current)
 	{
-		clean_key = ft_strtrim(current->key, "=");
-		if (ft_strcmp(clean_key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			if (previous)
 				previous->next = current->next;
 			else
 				*env = current->next;
 			return (free(current->key), free(current->value), \
-			free(current), free(clean_key), 0);
+			free(current), 0);
 		}
-		free(clean_key);
 		previous = current;
 		current = current->next;
 	}

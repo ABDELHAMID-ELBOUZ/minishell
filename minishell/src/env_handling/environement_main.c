@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:51:40 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/16 16:51:50 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:07:00 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static t_env	*create_env_node_from_string(char *env_string)
 			return (NULL);
 		return (node);
 	}
+	free(key);
 	return (NULL);
 }
 

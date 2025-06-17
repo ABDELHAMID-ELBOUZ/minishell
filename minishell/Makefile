@@ -28,7 +28,6 @@ SRCS = \
 	$(SHELL_DIR)shell_1.c \
 	$(SHELL_DIR)shell_2.c \
 	$(SHELL_DIR)check.c \
-	$(SHELL_DIR)dummy.c \
 	$(TOKEN_DIR)tokenizer_main.c \
 	$(TOKEN_DIR)tokenizer_core.c \
 	$(TOKEN_DIR)tokenizer_special.c \
@@ -77,6 +76,7 @@ SRCS = \
 	$(EXUCUTION)ft_lstsize.c \
 	$(EXUCUTION)ft_putstr_fd.c \
 	$(EXUCUTION)ft_strtrim.c \
+	$(EXUCUTION)dummy.c \
 	$(PARSER)parser.c \
 	$(PARSER)parse_single_command.c \
 	$(PARSER)parser_utils.c 

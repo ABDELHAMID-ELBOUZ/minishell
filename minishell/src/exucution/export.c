@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 19:51:24 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/17 10:35:09 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	handl_export_args(char *arg, t_env **env)
 	eq = ft_strchr(arg, '=');
 	if (eq)
 	{
-		key = ft_substr(arg, 0, eq - arg );
+		key = ft_substr(arg, 0, ft_strlen(arg) - ft_strlen(eq));
 		if (!key)
 			return (1);
 		value = ft_substr(eq + 1, 0, ft_strlen(eq));

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:55:05 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/13 10:29:52 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:26:15 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	create_heredoc_file(t_shell *shell)
 	if (!temp_filename)
 		return (-1);
 	fd = open(temp_filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	return (fd);
+	return (free(temp_filename), fd);
 }
 
 static int	should_stop_heredoc(char *line, char *delimiter)
@@ -74,6 +74,7 @@ int	read_heredoc_input(char *delimiter, int expand, t_shell *shell)
 		line = process_heredoc_line(line, expand, shell);
 		write_line_to_file(fd, line);
 		free(line);
+		free(delimiter);
 	}
 	signal(SIGINT, sigint_handler);
 	return (close(fd), SUCCESS);

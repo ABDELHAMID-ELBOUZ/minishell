@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:14:52 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/16 17:54:54 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:10:17 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ t_shell	*init_shell(char **envp)
 {
 	t_shell	*shell;
 
-	init_env(envp);
 	shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
@@ -85,5 +84,9 @@ void	reset_shell(t_shell *shell)
 		free_var_info_list(shell->variables);
 		shell->variables = NULL;
 	}
+	// if (shell->heredoc_files)
+	// {
+	// 	free_arr(shell->heredoc_files);
+	// }
 	shell->heredoc_sigint = 0;
 }

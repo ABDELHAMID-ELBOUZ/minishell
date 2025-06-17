@@ -6,53 +6,40 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:31:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/13 09:52:32 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:52:56 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	update_existing_key(t_env *tmp, char *key, char *value, char *clean_key)
+int	update_existing_key(t_env *tmp, char *key, char *value)
 {
-	if (!value && (!tmp->value || !tmp->value[0]))
-		return (free(clean_key), 1);
 	if (tmp->value && !value)
-		return (free(clean_key), 1);
+		return (1);
 	free(tmp->value);
 	free(tmp->key);
 	tmp->key = ft_strdup(key);
 	if (!tmp->key)
-		return (free(clean_key), 0);
+		return (0);
 	if (value)
 		tmp->value = ft_strdup(value);
 	else
 		tmp->value = NULL;
-	free(clean_key);
 	return (1);
 }
 
 int	find_and_update(t_env **env, char *key, char *value)
 {
 	t_env	*tmp;
-	char	*tmp_key;
-	char	*clean_key;
 
 	tmp = *env;
-	clean_key = ft_strtrim(key, "=");
-	if (!clean_key)
-		return (0);
 	while (tmp)
 	{
-		tmp_key = ft_strtrim(tmp->key, "=");
-		if (tmp_key && ft_strcmp(tmp_key, clean_key) == 0)
-		{
-			free(tmp_key);
-			return (update_existing_key(tmp, key, value, clean_key));
-		}
-		free(tmp_key);
+		if (  ft_strcmp(tmp->key, key) == 0)
+			return (update_existing_key(tmp, key, value));
 		tmp = tmp->next;
 	}
-	return (free(clean_key), 0);
+	return (0);
 }
 
 t_env	*new_copie(t_env *env)
