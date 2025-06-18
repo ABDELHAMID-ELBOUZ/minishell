@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 18:03:07 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/18 10:58:03 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,15 @@ void	close_fds(t_command *cmd, int stdout_save, int stdin_save)
 char	*get_my_env(char *name, t_env *env)
 {
 	t_env	*tmp;
-	char	*key;
 
 	if (!name || !env)
 		return (NULL);
 	tmp = env;
 	while (tmp)
 	{
-		key = ft_strtrim(tmp->key, "=");
-		if (ft_strcmp(key, name) == 0)
-			return (free(key), tmp->value);
+		if (ft_strcmp(tmp->key, name) == 0)
+			return (tmp->value);
 		tmp = tmp->next;
-		free(key);
 	}
 	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:31:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/17 10:52:56 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:35:08 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	find_and_update(t_env **env, char *key, char *value)
 	tmp = *env;
 	while (tmp)
 	{
-		if (  ft_strcmp(tmp->key, key) == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 			return (update_existing_key(tmp, key, value));
 		tmp = tmp->next;
 	}

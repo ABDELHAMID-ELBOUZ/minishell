@@ -6,13 +6,13 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 02:03:04 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/17 11:41:25 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:36:26 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_redirects(t_redirect *redir)
+void	free_redirects(t_redirect *redir)
 {
 	t_redirect	*temp;
 
@@ -31,7 +31,7 @@ void	free_cmd(t_command *cmd)
 	int	i;
 
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->args)
 	{
 		i = 0;
@@ -112,7 +112,7 @@ void	execute_commands(t_shell *shell)
 	int					cmd_count;
 	t_execution_info	info;
 	t_command			**cmds;
-	
+
 	cmds = NULL;
 	count_commands(shell, &cmd_count);
 	cmds = setup_and_execute(shell, cmd_count, &info);

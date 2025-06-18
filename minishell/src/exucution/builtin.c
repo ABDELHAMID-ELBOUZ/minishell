@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 19:54:10 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/18 11:39:05 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	ft_cd(char **args, t_env **env)
 
 	path = args[1];
 	oldpwd = getcwd(NULL, 0);
-	if (!oldpwd)
-		return (1);
 	if (!path || ft_strcmp(path, "~") == 0)
 		path = get_my_env("HOME", *env);
 	if (!path)
@@ -51,12 +49,18 @@ int	ft_cd(char **args, t_env **env)
 	if (chdir(path) == -1)
 		return (ft_putstr_fd("cd: ", 2), write(2, path, ft_strlen(path)), \
 		ft_putstr_fd(" No such file or directory\n", 2), free(oldpwd), 1);
+	if (!oldpwd)
+	{
+		ft_putstr_fd("cd: error retrieving current directory: ", 2);
+		perror("getcwd");
+		oldpwd = get_my_env("PWD", *env);
+	}
 	newpwd = getcwd(NULL, 0);
 	if (!newpwd)
-		return (free(oldpwd), 1);
+		newpwd = ft_strjoin(oldpwd, "/..");
 	updat_env(env, "OLDPWD", oldpwd);
 	updat_env(env, "PWD", newpwd);
-	return (free(oldpwd), free(newpwd), 0);
+	return (free(newpwd), 0);
 }
 
 int	is_numeric(char *str)
@@ -95,15 +99,20 @@ int	ft_exit(char **args)
 	exit (ft_atoi(args[1]) % 256);
 }
 
-int	ft_pwd(void)
+int	ft_pwd(t_env **env)
 {
 	char	*path;
 
 	path = getcwd(NULL, 0);
 	if (!path)
-		return (1);
+	{
+		path = get_my_env("PWD", *env);
+		if (!path)
+			return (1);
+	}
 	write(1, path, ft_strlen(path));
 	write(1, "\n", 1);
-	free(path);
+	if (path && path != get_my_env("PWD", *env))
+		free(path);
 	return (0);
 }

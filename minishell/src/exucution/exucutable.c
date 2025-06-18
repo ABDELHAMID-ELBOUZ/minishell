@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exucutable.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/17 16:01:57 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/18 11:36:59 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*find_executable(char *cmd, char *env_path)
 	i = 0;
 	while (dirs[i])
 	{
-		tmp = ft_strjoin(dirs[i], "/");	
+		tmp = ft_strjoin(dirs[i], "/");
 		if (!tmp)
 			return (free_arr(dirs), NULL);
 		full_path = ft_strjoin(tmp, cmd);
@@ -134,7 +134,7 @@ int	is_not_builtin(char **args, char *env_path)
 	else if (pid == 0)
 	{
 		execve(full_path, args, envp);
-		return (free(full_path), free_arr(envp), perror("execve"), 1);
+		return (free(full_path), free_arr(envp), perror(args[0]), 1);
 	}
 	waitpid(pid, &status, 0);
 	free(full_path);

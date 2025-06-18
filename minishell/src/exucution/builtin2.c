@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 20:30:54 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/18 09:46:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (ft_echo(args));
 	if (ft_strcmp(cmd, "pwd") == 0)
-		return (ft_pwd());
+		return (ft_pwd(env));
 	if (ft_strcmp(cmd, "exit") == 0)
 		return (ft_exit(args));
 	if (ft_strcmp(cmd, "cd") == 0)

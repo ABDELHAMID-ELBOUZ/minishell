@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/16 16:51:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/18 09:47:15 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ int				read_heredoc_input(char *delimiter, int expand, t_shell *shell);
 //exucution functions
 int				is_builtin(char *cmd, char **args, char *env_path, t_env **env);
 int				ft_echo(char **av);
-int				ft_pwd(void);
+int				ft_pwd(t_env **env);
 int				ft_exit(char **args);
 char			*find_executable(char *cmd, char *path_env);
 int				is_not_builtin(char **args, char *env_path);
