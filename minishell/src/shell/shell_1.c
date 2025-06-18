@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:14:52 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/17 16:18:41 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/18 16:48:52 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,6 @@ void	reset_shell(t_shell *shell)
 	{
 		free_var_info_list(shell->variables);
 		shell->variables = NULL;
-	}
-	if (shell->heredoc_files)
-	{
-		free_arr(shell->heredoc_files);
 	}
 	shell->heredoc_sigint = 0;
 }
