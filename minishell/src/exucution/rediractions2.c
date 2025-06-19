@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:36:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 18:02:21 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:59:09 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,39 @@ int	handle_redir(t_command *cmd)
 	else if (in_fd != -1)
 		cmd->file = in_fd;
 	return (0);
+}
+
+void	free_redirects(t_redirect *redir)
+{
+	t_redirect	*temp;
+
+	while (redir)
+	{
+		temp = redir;
+		redir = redir->next;
+		if (temp->file)
+			free(temp->file);
+		free(temp);
+	}
+}
+
+void	free_cmd(t_command *cmd)
+{
+	int	i;
+
+	if (!cmd)
+		return ;
+	if (cmd->args)
+	{
+		i = 0;
+		while (cmd->args[i])
+		{
+			free(cmd->args[i]);
+			i++;
+		}
+		free(cmd->args);
+	}
+	if (cmd->redirects)
+		free_redirects(cmd->redirects);
+	free(cmd);
 }

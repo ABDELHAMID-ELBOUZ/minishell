@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:14:52 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/18 16:48:52 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/19 10:52:21 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_shell	*init_shell(char **envp)
 	shell->commands = NULL;
 	shell->env = init_env(envp);
 	if (!shell->env)
-		shell->env = get_env(init_default_env(&shell->env));
+		shell->env = init_default_env(&shell->env);
 	shell->exit_status = 0;
 	shell->running = 1;
 	shell->heredoc_sigint = 0;

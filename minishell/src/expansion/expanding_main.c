@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:09:56 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/16 11:09:53 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:20:05 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ static int	check_token_condition(t_token *cur, t_token *prev)
 	return (is_redir_target);
 }
 
+static void	move_to_next_token(t_token **cur_token, t_token **prev_token)
+{
+	*prev_token = *cur_token;
+	if (*cur_token)
+		*cur_token = (*cur_token)->next;
+}
+
 void	expand_variables(t_shell *shell)
 {
 	t_token		*cur_token;
@@ -83,8 +90,6 @@ void	expand_variables(t_shell *shell)
 			prev_token = cur_token;
 			cur_token = cur_token->next;
 		}
-		prev_token = cur_token;
-		if (cur_token)
-			cur_token = cur_token->next;
+		move_to_next_token(&cur_token, &prev_token);
 	}
 }

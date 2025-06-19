@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 17:55:53 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:07:01 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ int	setup_io(t_execution_info *info)
 	info->stdout_save = dup(STDOUT_FILENO);
 	if (info->stdin_save == -1 || info->stdout_save == -1)
 		return (perror("minishell: dup"), 1);
+	return (0);
+}
+
+static int	handle_redirects(t_command *cmd, int *file)
+{
+	if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_OUT \
+		|| cmd->redirects->type == TOKEN_REDIR_APPEND) \
+		&& dup2(*file, STDOUT_FILENO) == -1)
+		return (perror("minishell: dup2"), 1);
+	if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_IN) \
+	&& dup2(*file, STDIN_FILENO) == -1)
+		return (perror("minishell: dup2"), 1);
 	return (0);
 }
 
@@ -33,13 +45,8 @@ int	execute_single_command(t_command *cmd, t_env **env)
 		return (1);
 	if (cmd->file != -1)
 	{
-		if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_OUT \
-			|| cmd->redirects->type == TOKEN_REDIR_APPEND) \
-			&& dup2(cmd->file, STDOUT_FILENO) == -1)
-			return (perror("minishell: dup2"), 1);
-		if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_IN) \
-		&& dup2(cmd->file, STDIN_FILENO) == -1)
-			return (perror("minishell: dup2"), 1);
+		if (handle_redirects(cmd, &cmd->file) != 0)
+			return (1);
 	}
 	env_path = get_my_env("PATH", *env);
 	if (env_path == NULL)

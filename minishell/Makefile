@@ -61,8 +61,6 @@ SRCS = \
 	$(HEREDOC_DIR)read_heredoc.c \
 	$(EXUCUTION)builtin.c \
 	$(EXUCUTION)builtin2.c \
-	$(EXUCUTION)env.c \
-	$(EXUCUTION)env2.c \
 	$(EXUCUTION)export.c \
 	$(EXUCUTION)export2.c \
 	$(EXUCUTION)export3.c \

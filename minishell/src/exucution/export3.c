@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 09:18:01 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/16 20:02:55 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/19 10:58:11 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,26 @@ void	handl_plus(t_env **env, char *key, char *value)
 	}
 	creat_new_node(env, tmp_key, value);
 	free(tmp_key);
+}
+
+void	updat_env(t_env **env, char *key, char *value)
+{
+	t_env	*tmp;
+
+	if (ft_strchr(key, '+'))
+		return (handl_plus(env, key, value));
+	if (find_and_update(env, key, value))
+		return ;
+	tmp = malloc(sizeof(t_env));
+	if (!tmp)
+		return (free(key));
+	tmp->key = ft_strdup(key);
+	if (value)
+		tmp->value = ft_strdup(value);
+	else
+		tmp->value = NULL;
+	if (value && !tmp->value)
+		return (free(tmp->key), free(tmp));
+	tmp->next = NULL;
+	ft_lstadd_back(env, tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/18 09:46:49 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:51:00 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
 		return (ft_export(args, env));
 	if (ft_strcmp(cmd, "unset") == 0)
 		return (ft_unset(args, env));
-	return (is_not_builtin(args, env_path));
+	return (is_not_builtin(args, env_path, *env));
 }

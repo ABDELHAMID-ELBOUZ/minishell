@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/18 11:36:59 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:51:27 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	check_status( char **args, char *env_path, char **full_path)
 	return (status);
 }
 
-int	is_not_builtin(char **args, char *env_path)
+int	is_not_builtin(char **args, char *env_path, t_env *env)
 {
 	char	*full_path;
 	int		status;
@@ -125,7 +125,7 @@ int	is_not_builtin(char **args, char *env_path)
 	status = check_status(args, env_path, &full_path);
 	if (status != 0)
 		return (free(full_path), status);
-	envp = env_to_array(get_env(NULL));
+	envp = env_to_array(env);
 	if (!envp)
 		return (free(full_path), 1);
 	pid = fork();

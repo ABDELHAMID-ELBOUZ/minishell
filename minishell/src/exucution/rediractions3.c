@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/18 10:58:03 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 11:13:42 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,18 @@ char	*get_my_env(char *name, t_env *env)
 	return (NULL);
 }
 
+static int	handle_redirects(t_command *cmd, int *file)
+{
+	if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_OUT || \
+		cmd->redirects->type == TOKEN_REDIR_APPEND) && \
+		dup2(*file, STDOUT_FILENO) == -1)
+		return (1);
+	if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_IN) \
+		&& dup2(*file, STDIN_FILENO) == -1)
+		return (1);
+	return (0);
+}
+
 int	execute_with_setup(t_command **cmds, t_command *cmd, \
 	t_execution_info *info, char *env_path)
 {
@@ -55,12 +67,7 @@ int	execute_with_setup(t_command **cmds, t_command *cmd, \
 			exit(1);
 		if (cmd->file != -1)
 		{
-			if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_OUT || \
-				cmd->redirects->type == TOKEN_REDIR_APPEND) && \
-				dup2(cmd->file, STDOUT_FILENO) == -1)
-				exit(1);
-			if (cmd->redirects && (cmd->redirects->type == TOKEN_REDIR_IN) \
-			&& dup2(cmd->file, STDIN_FILENO) == -1)
+			if (handle_redirects(cmd, &cmd->file) != 0)
 				exit(1);
 		}
 		if (!env_path)

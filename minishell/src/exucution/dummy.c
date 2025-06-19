@@ -6,46 +6,11 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 02:03:04 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/18 11:36:26 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:59:36 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	free_redirects(t_redirect *redir)
-{
-	t_redirect	*temp;
-
-	while (redir)
-	{
-		temp = redir;
-		redir = redir->next;
-		if (temp->file)
-			free(temp->file);
-		free(temp);
-	}
-}
-
-void	free_cmd(t_command *cmd)
-{
-	int	i;
-
-	if (!cmd)
-		return ;
-	if (cmd->args)
-	{
-		i = 0;
-		while (cmd->args[i])
-		{
-			free(cmd->args[i]);
-			i++;
-		}
-		free(cmd->args);
-	}
-	if (cmd->redirects)
-		free_redirects(cmd->redirects);
-	free(cmd);
-}
 
 void	count_commands(t_shell *shell, int *cmd_count)
 {

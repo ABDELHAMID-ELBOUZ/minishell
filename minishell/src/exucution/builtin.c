@@ -6,38 +6,16 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 09:17:30 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 10:58:18 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	updat_env(t_env **env, char *key, char *value)
-{
-	t_env	*tmp;
-
-	if (ft_strchr(key, '+'))
-		return (handl_plus(env, key, value));
-	if (find_and_update(env, key, value))
-		return ;
-	tmp = malloc(sizeof(t_env));
-	if (!tmp)
-		return (free(key));
-	tmp->key = ft_strdup(key);
-	if (value)
-		tmp->value = ft_strdup(value);
-	else
-		tmp->value = NULL;
-	if (value && !tmp->value)
-		return (free(tmp->key), free(tmp));
-	tmp->next = NULL;
-	ft_lstadd_back(env, tmp);
-}
-
 void	handle_getcwd_error(char **newpwd, t_env **env)
 {
 	char	*tmp;
-	
+
 	ft_putstr_fd("cd: error retrieving current directory: ", 2);
 	perror("getcwd");
 	tmp = get_my_env("PWD", *env);
