@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environement_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houabell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:03:48 by houabell          #+#    #+#             */
-/*   Updated: 2025/05/15 22:14:20 by houabell         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:23:53 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,13 @@ t_env	*get_env_node(t_env *env, char *key)
 		temp = temp->next;
 	}
 	return (NULL);
+}
+
+t_env	*get_env(t_env *new_env)
+{
+	static t_env	*env;
+
+	if (new_env)
+		env = new_env;
+	return (env);
 }

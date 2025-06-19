@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 10:51:27 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:34:09 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	**env_to_array(t_env *env)
 	t_env	*tmp;
 	int		i;
 	char	**envp;
+	char	*tmp_key;
 
 	tmp = env;
 	count = ft_lstsize(tmp);
@@ -29,7 +30,8 @@ char	**env_to_array(t_env *env)
 	{
 		if (!tmp->key && !tmp->value)
 			return (free_arr(envp), NULL);
-		envp[i] = ft_strjoin(tmp->key, tmp->value);
+		tmp_key = ft_strjoin(tmp->key, "=");
+		envp[i] = ft_strjoin(tmp_key, tmp->value);
 		if (!envp[i])
 			return (free_arr(envp), NULL);
 		i++;
@@ -139,5 +141,5 @@ int	is_not_builtin(char **args, char *env_path, t_env *env)
 	waitpid(pid, &status, 0);
 	free(full_path);
 	free_arr(envp);
-	return (WEXITSTATUS(status));
+	return (status);
 }
