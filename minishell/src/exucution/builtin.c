@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/18 11:39:05 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 09:17:30 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ void	updat_env(t_env **env, char *key, char *value)
 	ft_lstadd_back(env, tmp);
 }
 
+void	handle_getcwd_error(char **newpwd, t_env **env)
+{
+	char	*tmp;
+	
+	ft_putstr_fd("cd: error retrieving current directory: ", 2);
+	perror("getcwd");
+	tmp = get_my_env("PWD", *env);
+	*newpwd = ft_strjoin(tmp, "/..");
+}
+
 int	ft_cd(char **args, t_env **env)
 {
 	char	*oldpwd;
@@ -49,17 +59,13 @@ int	ft_cd(char **args, t_env **env)
 	if (chdir(path) == -1)
 		return (ft_putstr_fd("cd: ", 2), write(2, path, ft_strlen(path)), \
 		ft_putstr_fd(" No such file or directory\n", 2), free(oldpwd), 1);
-	if (!oldpwd)
-	{
-		ft_putstr_fd("cd: error retrieving current directory: ", 2);
-		perror("getcwd");
-		oldpwd = get_my_env("PWD", *env);
-	}
 	newpwd = getcwd(NULL, 0);
-	if (!newpwd)
-		newpwd = ft_strjoin(oldpwd, "/..");
+	if (!oldpwd && !newpwd)
+		handle_getcwd_error(&newpwd, env);
 	updat_env(env, "OLDPWD", oldpwd);
 	updat_env(env, "PWD", newpwd);
+	if (oldpwd)
+		free (oldpwd);
 	return (free(newpwd), 0);
 }
 
