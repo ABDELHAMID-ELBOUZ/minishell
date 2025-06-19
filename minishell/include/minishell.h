@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/19 12:29:17 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 13:15:57 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,5 +310,6 @@ void			free_cmd(t_command *cmd);
 t_command		*parse_single_command(t_token **tokens);
 void			add_redirect(t_command *cmd, t_token_type type, char *filename);
 void			count_args_and_redirs(t_token *start, int *arg_c, int *redir_c);
+int				env_to_array2(char **envp, int	*i, t_env *tmp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 12:34:09 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/19 13:15:23 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 char	**env_to_array(t_env *env)
 {
-	int		count;
 	t_env	*tmp;
-	int		i;
 	char	**envp;
-	char	*tmp_key;
+	int		count;
+	int		i;
 
 	tmp = env;
 	count = ft_lstsize(tmp);
@@ -26,17 +25,8 @@ char	**env_to_array(t_env *env)
 	if (!envp)
 		return (NULL);
 	i = 0;
-	while (tmp)
-	{
-		if (!tmp->key && !tmp->value)
-			return (free_arr(envp), NULL);
-		tmp_key = ft_strjoin(tmp->key, "=");
-		envp[i] = ft_strjoin(tmp_key, tmp->value);
-		if (!envp[i])
-			return (free_arr(envp), NULL);
-		i++;
-		tmp = tmp->next;
-	}
+	if (env_to_array2(envp, &i, tmp) != 0)
+		return (NULL);
 	envp[i] = NULL;
 	return (envp);
 }
