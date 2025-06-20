@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 13:15:23 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/20 09:02:43 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	check_status( char **args, char *env_path, char **full_path)
 			ft_putstr_fd(" minishell : No such file or directory\n", 2);
 	}
 	else if (status == 126)
-		ft_putstr_fd("minishell : permission denied\n", 2);
+		ft_putstr_fd("minishell : permission\n", 2);
 	return (status);
 }
 

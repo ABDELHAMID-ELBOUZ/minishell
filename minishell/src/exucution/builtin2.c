@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 13:00:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/20 11:52:08 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ int	ft_env(t_env *envp)
 
 int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
 {
+	if (args[0][0] == '/')
+		return (write(2, args[0], ft_strlen(args[0])), \
+		ft_putstr_fd(" : is a directory\n", 2), 126);
 	if (!cmd)
 		return (0);
 	if (ft_strcmp(cmd, "echo") == 0)
