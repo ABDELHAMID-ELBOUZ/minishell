@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 09:47:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 11:13:42 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:56:32 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <stdlib.h>
 
 void	close_fds(t_command *cmd, int stdout_save, int stdin_save)
 {
@@ -73,10 +74,10 @@ int	execute_with_setup(t_command **cmds, t_command *cmd, \
 		if (!env_path)
 			exit(1);
 		info->status = is_builtin(cmd->args[0], cmd->args, env_path, info->env);
-		exit(EXIT_SUCCESS);
+		exit(info->status);
 	}
 	waitpid(-1, &info->status, 0);
-	return (0);
+	return (WEXITSTATUS(info->status));
 }
 
 int	cleanup_execution(t_execution_info *info)

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions_helper2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/19 11:07:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:52:45 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <stdio.h>
 
 int	setup_io(t_execution_info *info)
 {
@@ -74,7 +75,8 @@ int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
 	info->env = env;
 	while (info->i < info->cmd_count)
 	{
-		if (execute_with_setup(cmds, cmds[info->i], info, env_path) != 0)
+		info->status = execute_with_setup(cmds, cmds[info->i], info, env_path);
+		if (info->status == 1)
 			return (1);
 		if (info->i > 0)
 			close(cmds[info->i - 1]->fd[0]);
@@ -83,5 +85,5 @@ int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
 		(info->i)++;
 	}
 	cleanup_execution(info);
-	return (0);
+	return (info->status);
 }

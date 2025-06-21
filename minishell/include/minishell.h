@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/21 08:27:45 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/21 14:56:20 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_word_state {
 
 extern volatile int	g_signal_status;
 // Shell Core (src/shell)
+int	exit_status(int new);
 t_shell			*init_shell(char **envp);
 void			free_shell(t_shell *shell);
 void			reset_shell(t_shell *shell);

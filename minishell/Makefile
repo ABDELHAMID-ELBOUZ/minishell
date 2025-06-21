@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g # -g for debugging, remove for release
+CFLAGS = -Wall -Wextra  -g # -g for debugging, remove for release
 # If you are using the readline library from a non-standard location, you might need:
 # CFLAGS += -I/path/to/readline/include
 # LDFLAGS += -L/path/to/readline/lib

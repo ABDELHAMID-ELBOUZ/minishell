@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/17 10:35:09 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/21 19:42:43 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_valide_args(char *key)
 {
 	int	i;
 
-	if (!*key || !key || ft_isdigit(key[0]))
+	if (!*key || !key || ft_isdigit(key[0]) || key[0] == '=' || key[0] == '+' )
 		return (0);
 	i = 0;
 	while (key[i] && key[i] != '=' && key[i] != '+')
