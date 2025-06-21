@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/19 13:15:57 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/21 08:27:45 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ int				check_pipe_syntax(t_token *tokens);
 int				check_redirection_syntax(t_token *tokens);
 void			free_cmd(t_command *cmd);
 int				check_ambig(t_shell *shell);
+void			cleanup_files(t_shell *shell);
 // Tokenization (src/tokenization)
 t_token			*tokenize(char *input, t_shell *shell);
 t_token			*new_token(t_token_type type, char *value);

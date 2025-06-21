@@ -28,6 +28,7 @@ SRCS = \
 	$(SHELL_DIR)shell_1.c \
 	$(SHELL_DIR)shell_2.c \
 	$(SHELL_DIR)check.c \
+	$(SHELL_DIR)cleanup.c \
 	$(TOKEN_DIR)tokenizer_main.c \
 	$(TOKEN_DIR)tokenizer_core.c \
 	$(TOKEN_DIR)tokenizer_special.c \
