@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredocs.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:14:36 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/16 11:47:44 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/22 15:34:19 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	process_heredoc_token(t_token *token, t_shell *shell)
 	int	quotes_flag;
 
 	quotes_flag = token->next->original_delimiter_had_quotes;
-	if (read_heredoc_input(token->next->value, quotes_flag, shell) \
+	if (read_heredoc_input(token->next->value, !quotes_flag, shell) \
 			!= SUCCESS)
 		return (ERROR);
 	token->type = TOKEN_REDIR_IN;

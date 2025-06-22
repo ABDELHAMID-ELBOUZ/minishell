@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/21 16:52:45 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/22 16:43:20 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
 	while (info->i < info->cmd_count)
 	{
 		info->status = execute_with_setup(cmds, cmds[info->i], info, env_path);
-		if (info->status == 1)
-			return (1);
 		if (info->i > 0)
 			close(cmds[info->i - 1]->fd[0]);
 		if (info->i < info->cmd_count - 1)

@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra  -g # -g for debugging, remove for release
+CFLAGS = -Wall -Wextra -Werror -g # -g for debugging, remove for release
 # If you are using the readline library from a non-standard location, you might need:
 # CFLAGS += -I/path/to/readline/include
 # LDFLAGS += -L/path/to/readline/lib
@@ -48,6 +48,7 @@ SRCS = \
 	$(EXP_DIR)var_logging_utils.c \
 	$(EXP_DIR)expansion_utils1.c \
 	$(EXP_DIR)expansion_utils2.c \
+	$(EXP_DIR)expanding_added.c \
 	$(ENV_DIR)environement_main.c \
 	$(ENV_DIR)environement_utils.c \
 	$(SIGNAL_DIR)handle_signals.c \

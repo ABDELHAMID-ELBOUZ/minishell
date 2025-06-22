@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/21 14:56:20 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/22 16:12:07 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,8 @@ void			init_word_context(t_word_context *ctx, t_shell *shell);
 t_token			*finalize_word(char *input, int start, \
 				int *i, t_word_context *ctx);
 int				segment_has_any_actual_quotes(const char *segment_str, int len);
-
+int	check_token_condition(t_token *cur, t_token *prev);
+void	print_ambiguous_redirect_error(t_shell *shell, t_token *token);
 void			print_variables(t_var_info *variables);
 
 // Environment Handling (src/env_handling)
@@ -277,7 +278,6 @@ int				ft_exit(char **args);
 char			*find_executable(char *cmd, char *path_env);
 int				is_not_builtin(char **args, char *env_path, t_env *env);
 char			**env_to_array(t_env *env);
-// void			init_env(char **envp);
 void			free_env(t_env *env);
 t_env			*get_env(t_env *new_env);
 int				ft_cd(char **args, t_env **env);

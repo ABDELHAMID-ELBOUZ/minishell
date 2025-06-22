@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_token_value.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houabell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 20:28:50 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/05 16:19:40 by houabell         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:41:44 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,9 @@
 
 char	**finalize_expansion(t_expansion_state *state)
 {
-	if (state->buffer && *state->buffer)
-	{
-		add_segment(&state->result, ft_strdup(state->buffer));
-		free(state->buffer);
-	}
-	else if (state->buffer)
-		free(state->buffer);
-	return (ensure_valid_result(state->result));
+	if (state->buffer)
+		add_segment(&state->result, state->buffer);
+	return (state->result);
 }
 
 int	is_variable_start(char *str, int pos, t_var_info **var_list)

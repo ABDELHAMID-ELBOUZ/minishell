@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houabell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 00:15:30 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/02 00:28:05 by houabell         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:42:25 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include <string.h>
 
 void	append_segment(char **buffer, char *part)
 {
@@ -51,7 +52,7 @@ char	*get_env_value(char *name, t_shell *shell)
 		}
 		env = env->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }
 
 char	**ensure_valid_result(char **result)

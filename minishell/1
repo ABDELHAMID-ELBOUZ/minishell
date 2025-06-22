@@ -1,0 +1,104 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   1                                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
+/*   Updated: 2025/06/22 16:39:50 by abdelhamid       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../../includes/minishell.h"
+
+static int	first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
+{
+	int	fd[2];
+	int	child;
+
+	if (pipe(fd) == -1)
+		return (perror("pipe"), -1);
+	child = fork();
+	if (child == -1)
+		return (perror("fork"), close(fd[0]), close(fd[1]), -1);
+	if (child == 0)
+	{
+		if (cmd && cmd->argc == 0)
+		{
+			inf_outf_cmd(&cmd, 1, elem, gc);
+			exit(exit_stat(0, 0, gc, (*elem)->env));
+		}
+		exec_proc(&cmd, env, elem, gc);
+		free_arr((*elem)->env);
+		clear_parsing(gc);
+	}
+	return (fd[0]);
+}
+
+int	mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
+{
+	int	fd[2];
+	int	child;
+
+	if (pipe(fd) == -1)
+		return (perror("pipe"), -1);
+	child = fork();
+	if (child == -1)
+		return (perror("fork"), close(fd[0]), close(fd[1]), -1);
+	if (child == 0)
+	{
+		if (cmd && cmd->argc == 0)
+			return (inf_outf_cmd(&cmd, 1, elem, gc),
+				exit(exit_stat(0, 0, gc, (*elem)->env)), -1);
+		
+	}
+	return ();
+}
+
+void	last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
+{
+	int	child;
+	int	status;
+
+	child = fork();
+	if (child == -1)
+		return (perror("fork"), close((*elem)->fd_save), (void)0);
+	if (child == 0)
+	{
+		if (cmd && cmd->argc == 0)
+	}
+	waitpid(child, &status, 0);
+	if (cmd->argc == 0 && is_redir_exist(cmd->redirs, REDIR_IN))
+		return ;
+	exit_status(status);
+}
+
+void	pipe_case(t_cmd_table *data, t_env *env, t_elem **elem, t_gc **gc)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	(*elem)->fd_save = first_proc(data->cmds[0], env, elem, gc);
+	if ((*elem)->fd_save == -1)
+		return ;
+	if (data->cmd_count >= 3)
+	{
+		while (i < data->cmd_count - 2)
+		{
+			(*elem)->fd_save = mid_proc(data->cmds[i + 1], env, elem, gc);
+			if ((*elem)->fd_save == -1)
+			{
+				exit_stat(1, 1, NULL, NULL);
+				while ((wait(&status) != -1))
+					;
+				return ;
+			}
+			i++;
+		}
+	}
+	last_proc(data->cmds[data->cmd_count - 1], env, elem, gc);
+	while ((wait(NULL) != -1))
+		;
+}

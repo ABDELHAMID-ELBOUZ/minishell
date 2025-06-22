@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding_main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 15:09:56 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/19 11:20:05 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/22 16:11:34 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	process_each_token(t_token **token, t_var_info **var, t_shell *shell, \
 	free_arr(segments);
 }
 
-static int	check_token_condition(t_token *cur, t_token *prev)
+int	check_token_condition(t_token *cur, t_token *prev)
 {
 	int	is_redir_target;
 
@@ -59,37 +59,12 @@ static int	check_token_condition(t_token *cur, t_token *prev)
 	return (is_redir_target);
 }
 
-static void	move_to_next_token(t_token **cur_token, t_token **prev_token)
+void	print_ambiguous_redirect_error(t_shell *shell, t_token *token)
 {
-	*prev_token = *cur_token;
-	if (*cur_token)
-		*cur_token = (*cur_token)->next;
-}
-
-void	expand_variables(t_shell *shell)
-{
-	t_token		*cur_token;
-	t_var_info	*var_list;
-	t_token		*prev_token;
-	int			is_redir_target;
-
-	cur_token = shell->tokens;
-	prev_token = NULL;
-	var_list = shell->variables;
-	while (cur_token != NULL)
-	{
-		is_redir_target = check_token_condition(cur_token, prev_token);
-		if (is_redir_target == -1)
-		{
-			prev_token = cur_token;
-			cur_token = cur_token->next;
-		}
-		else if (cur_token->type == TOKEN_WORD && has_variable(cur_token))
-		{
-			process_each_token(&cur_token, &var_list, shell, is_redir_target);
-			prev_token = cur_token;
-			cur_token = cur_token->next;
-		}
-		move_to_next_token(&cur_token, &prev_token);
-	}
+	printf("minishell: %s: ambiguous redirect\n", token->value);
+	shell->exit_status = 1;
+	free_tokens(shell->tokens);
+	shell->tokens = NULL;
+	free_var_info_list(shell->variables);
+	shell->variables = NULL;
 }

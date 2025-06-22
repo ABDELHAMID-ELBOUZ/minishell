@@ -6,7 +6,7 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/21 16:57:45 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/22 15:26:34 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,42 @@ char	*find_executable(char *cmd, char *env_path)
 	return (free_arr(dirs), NULL);
 }
 
+int	is_valid_path(char *cmd, char **full_path)
+{
+    struct stat st;
+
+    if ((cmd[0] == '/' && ft_isalnum(cmd[1])) || ft_strcmp(cmd, "../") == 0 \
+        || (cmd[0] == '.' && cmd[1] == '/'))
+    {
+        if (access(cmd, F_OK) != 0)
+            return (127);
+        if (stat(cmd, &st) == -1) 
+            return (127);
+        if (S_ISDIR(st.st_mode))
+            return (ft_putstr_fd(cmd, 2), \
+			ft_putstr_fd(" minishell : Is a directory\n", 2), 126);
+        if (access(cmd, X_OK) == 0)
+        {
+            *full_path = ft_substr(cmd, 0, ft_strlen(cmd));
+            if (!*full_path)
+                return (1);
+            return (0);
+        }
+        if (access(cmd, X_OK) != 0)
+            return (ft_putstr_fd(cmd, 2), \
+			ft_putstr_fd(" minishell : permission denied\n", 2), 126);
+    }
+    return (-1);
+}
+
 int	check_executable(char *cmd, char *env_path, char **full_path)
 {
+	int	status;
 	if (!cmd)
 		return (127);
-	if (cmd[0] == '/' || ft_strcmp(cmd, "../") == 0 \
-		|| (cmd[0] == '.' && cmd[1] == '/'))
-	{
-		if (access(cmd, F_OK) != 0)
-			return (127);
-		if (access(cmd, X_OK) == 0)
-		{
-			*full_path = ft_substr(cmd, 0, ft_strlen(cmd));
-			if (!*full_path)
-				return (1);
-			return (126);
-		}
-		return (126);
-	}
+	status = is_valid_path(cmd, full_path);
+	if (status != -1)
+		return (status);
 	if (env_path)
 		*full_path = find_executable(cmd, env_path);
 	else
@@ -100,11 +118,6 @@ int	check_status( char **args, char *env_path, char **full_path)
 			ft_putstr_fd(" minishell : command not found\n", 2);
 		else
 			ft_putstr_fd(" minishell : No such file or directory\n", 2);
-	}
-	else if (status == 126)
-	{
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(" minishell : permission denied\n", 2);
 	}
 	return (status);
 }
