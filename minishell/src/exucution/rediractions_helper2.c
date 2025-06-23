@@ -6,12 +6,14 @@
 /*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:30:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/22 16:43:20 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/23 18:12:15 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
 
 int	setup_io(t_execution_info *info)
 {
@@ -55,33 +57,117 @@ int	execute_single_command(t_command *cmd, t_env **env)
 	info.status = is_builtin(cmd->args[0], cmd->args, env_path, env);
 	dup2(info.stdout_save, STDOUT_FILENO);
 	dup2(info.stdin_save, STDIN_FILENO);
-	if (cmd->redirects && cmd->redirects->type == TOKEN_HEREDOC)
-		unlink("/tmp/herdoc");
 	close_fds(cmd, info.stdout_save, info.stdout_save);
 	return (info.status);
 }
 
-int	execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, \
-	t_execution_info *info)
+static int first_proc(t_command *cmd, t_env **env, t_execution_info *info)
 {
-	char	*env_path;
+    char *env_path;
+    int child;
 
-	env_path = get_my_env("PATH", *env);
-	if (env_path == NULL)
-		env_path = NULL;
-	info->i = 0;
-	info->cmd_count = cmd_count;
-	info->status = -1;
-	info->env = env;
-	while (info->i < info->cmd_count)
-	{
-		info->status = execute_with_setup(cmds, cmds[info->i], info, env_path);
-		if (info->i > 0)
-			close(cmds[info->i - 1]->fd[0]);
-		if (info->i < info->cmd_count - 1)
-			close(cmds[info->i]->fd[1]);
-		(info->i)++;
-	}
-	cleanup_execution(info);
-	return (info->status);
+    if (pipe(cmd->fd) == -1)
+        return (perror("minishell: pipe"), -1);
+    child = fork();
+    if (child == -1)
+        return (perror("minishell: fork"), close(cmd->fd[0]), close(cmd->fd[1]), -1);
+    if (child == 0)
+    {
+        dup2(cmd->fd[0], STDIN_FILENO);
+		dup2(cmd->fd[1], STDOUT_FILENO);
+        if (handle_redir(cmd) != 0)
+			exit(1);
+        env_path = get_my_env("PATH", *env);
+        if (!env_path)
+            exit(1);
+        info->status = is_builtin(cmd->args[0], cmd->args, env_path, env);
+        exit(info->status);
+    }
+    close(cmd->fd[1]);
+    return (cmd->fd[0]);
+}
+
+static int mid_proc(int fd_save, t_command *cmd, t_env **env, t_execution_info *info)
+{
+    int child;
+	char *env_path;
+
+    if (pipe(cmd->fd) == -1)
+        return (perror("minishell: pipe"), -1);
+    child = fork();
+    if (child == -1)
+        return (perror("minishell: fork"), close(cmd->fd[0]), close(cmd->fd[1]), -1);
+    if (child == 0)
+    {
+        close(cmd->fd[0]);
+        dup2(fd_save, STDIN_FILENO);
+        close(fd_save);
+        dup2(cmd->fd[1], STDOUT_FILENO);
+        close(cmd->fd[1]);
+        if (handle_redir(cmd) != 0)
+            exit(1);
+        env_path = get_my_env("PATH", *env);
+        if (!env_path)
+            exit(1);
+        info->status = is_builtin(cmd->args[0], cmd->args, env_path, env);
+        exit(info->status);
+    }
+    close(cmd->fd[1]);
+    close(fd_save);
+    return (cmd->fd[0]);
+}
+
+static int last_proc(int fd_save, t_command *cmd, t_env **env, t_execution_info *info)
+{
+    int child;
+	char *env_path;
+
+    child = fork();
+    if (child == -1)
+        return (perror("minishell: fork"), close(fd_save), 1);
+    if (child == 0)
+    {
+		handle_signals();
+        dup2(fd_save, STDIN_FILENO);
+        close(fd_save);
+        if (handle_redir(cmd) != 0)
+            exit(1);
+        env_path = get_my_env("PATH", *env);
+        if (!env_path)
+            exit(1);
+        info->status = is_builtin(cmd->args[0], cmd->args, env_path, env);
+        exit(info->status);
+    }
+	waitpid(child, &info->status, 0);
+    close(fd_save); 
+	return (WEXITSTATUS(info->status));
+}
+
+int execute_multiple_commands(t_command **cmds, t_env **env, int cmd_count, t_execution_info *info)
+{
+    int fd_save;
+    int i;
+
+    if (cmd_count == 0)
+        return (0);
+    fd_save = first_proc(cmds[0], env, info);
+    if (fd_save == -1)
+        return (1);
+    if (cmd_count >= 3)
+    {
+        i = 0;
+        while (i < cmd_count - 2)
+        {
+            fd_save = mid_proc(fd_save, cmds[i + 1], env, info);
+            if (fd_save == -1)
+            {
+                while (wait(NULL) != -1);
+                return (1);
+            }
+            i++;
+        }
+    }
+    info->status = last_proc(fd_save, cmds[cmd_count - 1], env, info);
+    while (wait(NULL) != -1);
+    return (info->status);
 }

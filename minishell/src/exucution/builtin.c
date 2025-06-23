@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/20 11:46:02 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/23 18:05:09 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_cd(char **args, t_env **env)
 	char	*newpwd;
 	char	*path;
 
+	if (!args[1][0])
+		return (0);
 	path = args[1];
 	oldpwd = getcwd(NULL, 0);
 	if (!path || ft_strcmp(path, "~") == 0)
