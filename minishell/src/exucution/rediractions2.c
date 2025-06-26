@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rediractions2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 14:36:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/23 16:10:03 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/25 16:50:38 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,31 @@ int	handle_in_redir(t_redirect *redir_info)
 	return (fd);
 }
 
+int	process_redirections(t_redirect *redir, int *in_fd, int *out_fd)
+{
+	while (redir)
+	{
+		if (redir->type == TOKEN_REDIR_OUT || redir->type == TOKEN_REDIR_APPEND)
+		{
+			if (*out_fd != -1)
+				close(*out_fd);
+			*out_fd = handle_out_redir(redir);
+			if (*out_fd == -1)
+				return (1);
+		}
+		else if (redir->type == TOKEN_REDIR_IN)
+		{
+			if (*in_fd != -1)
+				close(*in_fd);
+			*in_fd = handle_in_redir(redir);
+			if (*in_fd == -1)
+				return (1);
+		}
+		redir = redir->next;
+	}
+	return (0);
+}
+
 int	handle_redir(t_command *cmd)
 {
 	t_redirect	*redir;
@@ -51,26 +76,8 @@ int	handle_redir(t_command *cmd)
 	out_fd = -1;
 	cmd->file = -1;
 	redir = cmd->redirects;
-	while (redir)
-	{
-		if (redir->type == TOKEN_REDIR_OUT || redir->type == TOKEN_REDIR_APPEND)
-		{
-			if (out_fd != -1)
-				close(out_fd);
-			out_fd = handle_out_redir(redir);
-			if (out_fd == -1)
-				return (1);
-		}
-		else if (redir->type == TOKEN_REDIR_IN)
-		{
-			if (in_fd != -1)
-				close(in_fd);
-			in_fd = handle_in_redir(redir);
-			if (in_fd == -1)
-				return (1);
-		}
-		redir = redir->next;
-	}
+	if (process_redirections(redir, &in_fd, &out_fd) != 0)
+		return (1);
 	if (in_fd != -1)
 	{
 		if (dup2(in_fd, STDIN_FILENO) == -1)
@@ -98,25 +105,4 @@ void	free_redirects(t_redirect *redir)
 			free(temp->file);
 		free(temp);
 	}
-}
-
-void	free_cmd(t_command *cmd)
-{
-	int	i;
-
-	if (!cmd)
-		return ;
-	if (cmd->args)
-	{
-		i = 0;
-		while (cmd->args[i])
-		{
-			free(cmd->args[i]);
-			i++;
-		}
-		free(cmd->args);
-	}
-	if (cmd->redirects)
-		free_redirects(cmd->redirects);
-	free(cmd);
 }

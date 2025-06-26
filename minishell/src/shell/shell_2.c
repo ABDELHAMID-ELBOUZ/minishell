@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:29:17 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/13 10:34:57 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:18:07 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,37 @@ int	minishell_loop(t_shell *shell)
 	{
 		if (get_and_process_input(shell) == ERROR)
 			break ;
+		if (g_signal_status != 0)
+		{
+			shell->exit_status = g_signal_status;
+			g_signal_status = 0;
+		}
 		if (shell->input)
 		{
 			process_command(shell);
-			reset_shell(shell);
 		}
+		reset_shell(shell);
 	}
+	if (g_signal_status != 0)
+		shell->exit_status = g_signal_status;
 	return (shell->exit_status);
+}
+
+void	free_shell(t_shell *shell)
+{
+	if (!shell)
+		return ;
+	if (shell->tokens)
+		free_tokens(shell->tokens);
+	if (shell->commands)
+		free_cmd(shell->commands);
+	if (shell->env)
+		free_env(shell->env);
+	if (shell->input)
+		free(shell->input);
+	if (shell->variables)
+		free_var_info_list(shell->variables);
+	if (shell->heredoc_files)
+		cleanup_files(shell);
+	free(shell);
 }

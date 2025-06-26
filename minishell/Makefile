@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g # -g for debugging, remove for release
+CFLAGS = -Wall -Wextra -Werror  -g -fsanitize=address # -g for debugging, remove for release
 # If you are using the readline library from a non-standard location, you might need:
 # CFLAGS += -I/path/to/readline/include
 # LDFLAGS += -L/path/to/readline/lib
@@ -51,6 +51,7 @@ SRCS = \
 	$(EXP_DIR)expanding_added.c \
 	$(ENV_DIR)environement_main.c \
 	$(ENV_DIR)environement_utils.c \
+	$(ENV_DIR)environement_utils2.c \
 	$(SIGNAL_DIR)handle_signals.c \
 	$(UTIL_DIR)str_stuff1.c \
 	$(UTIL_DIR)str_stuff2.c \
@@ -67,16 +68,16 @@ SRCS = \
 	$(EXUCUTION)export2.c \
 	$(EXUCUTION)export3.c \
 	$(EXUCUTION)exucutable.c \
-	$(EXUCUTION)rediractions_helper2.c \
+	$(EXUCUTION)execution_main.c \
 	$(EXUCUTION)rediractions2.c \
-	$(EXUCUTION)rediractions3.c \
 	$(EXUCUTION)unset.c \
 	$(EXUCUTION)ft_atoi.c \
 	$(EXUCUTION)ft_lstadd_back.c \
 	$(EXUCUTION)ft_lstsize.c \
 	$(EXUCUTION)ft_putstr_fd.c \
 	$(EXUCUTION)ft_strtrim.c \
-	$(EXUCUTION)dummy.c \
+	$(EXUCUTION)execution_helper.c \
+	$(EXUCUTION)execution_helper2.c \
 	$(PARSER)parser.c \
 	$(PARSER)parse_single_command.c \
 	$(PARSER)parser_utils.c 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   read_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 10:55:05 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/22 15:32:58 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/25 16:22:14 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	create_heredoc_file(t_shell *shell)
+int	create_heredoc_file(t_shell *shell)
 {
 	char	*temp_filename;
 	int		fd;
@@ -24,14 +24,14 @@ static int	create_heredoc_file(t_shell *shell)
 	return (free(temp_filename), fd);
 }
 
-static int	should_stop_heredoc(char *line, char *delimiter)
+int	should_stop_heredoc(char *line, char *delimiter)
 {
 	if (!line || ft_strcmp(line, delimiter) == 0)
 		return (1);
 	return (0);
 }
 
-static char	*process_heredoc_line(char *line, int expand, t_shell *shell)
+char	*process_heredoc_line(char *line, int expand, t_shell *shell)
 {
 	char	*expanded;
 
@@ -44,7 +44,7 @@ static char	*process_heredoc_line(char *line, int expand, t_shell *shell)
 	return (line);
 }
 
-static void	write_line_to_file(int fd, char *line)
+void	write_line_to_file(int fd, char *line)
 {
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
@@ -52,7 +52,6 @@ static void	write_line_to_file(int fd, char *line)
 
 int	read_heredoc_input(char *delimiter, int expand, t_shell *shell)
 {
-	char	*line;
 	int		fd;
 	int		stdin_backup;
 
@@ -62,24 +61,7 @@ int	read_heredoc_input(char *delimiter, int expand, t_shell *shell)
 	g_signal_status = 0;
 	stdin_backup = dup(STDIN_FILENO);
 	signal(SIGINT, sigint_heredoc_handler);
-	while (1)
-	{
-		line = readline("> ");
-		if (g_signal_status == 1)
-		{
-			shell->heredoc_sigint = 1;
-			break ;
-		}
-		if (should_stop_heredoc(line, delimiter))
-		{
-			if (line)
-				free(line);
-			break ;
-		}
-		line = process_heredoc_line(line, expand, shell);
-		write_line_to_file(fd, line);
-		free(line);
-	}
+	process_heredoc_loop(delimiter, expand, fd, shell);
 	signal(SIGINT, sigint_handler);
 	close(fd);
 	dup2(stdin_backup, STDIN_FILENO);

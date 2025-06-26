@@ -6,7 +6,7 @@
 /*   By: houabell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:58:46 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/05 20:31:31 by houabell         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:16:59 by houabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	handle_quote_in_word(char *input, int *i, int *start, \
 	t_quote_params	params;
 
 	if (input[*i] == '\'')
-		ctx->shell->csqt = QUOTE_NONE;
+		ctx->shell->csqt = QUOTE_SINGLE;
 	else
 		ctx->shell->csqt = QUOTE_DOUBLE;
 	params.input = input;

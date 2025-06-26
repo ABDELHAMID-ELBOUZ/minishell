@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/22 16:12:07 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/26 08:40:37 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,6 @@ typedef struct s_command {
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_execution_info
-{
-	int		i;
-	int		cmd_count;
-	int		status;
-	int		stdout_save;
-	int		stdin_save;
-	t_env	**env;
-}	t_execution_info;
-
 typedef struct s_shell {
 	t_token			*tokens;
 	t_command		*commands;
@@ -137,9 +127,19 @@ typedef struct s_word_state {
 	int		*i;
 }	t_word_state;
 
+typedef struct s_pipeline_data {
+	int			*i;
+	int			*in_fd;
+	int			pipe_fd[2];
+	pid_t		*pid;
+	pid_t		*last_pid;
+	t_command	**cmds;
+	int			cmd_count;
+	t_shell		*shell;
+}	t_pipeline_data;
+
 extern volatile int	g_signal_status;
 // Shell Core (src/shell)
-int	exit_status(int new);
 t_shell			*init_shell(char **envp);
 void			free_shell(t_shell *shell);
 void			reset_shell(t_shell *shell);
@@ -168,7 +168,6 @@ int				ft_isalnum(char c);
 char			*append_str(char *str, char *append);
 int				append_segment_to_word(char *input, int start, \
 				int current_i, char **word);
-
 void			print_tokens(t_token *tokens);
 
 // Expansion (src/expansion)
@@ -228,10 +227,9 @@ void			init_word_context(t_word_context *ctx, t_shell *shell);
 t_token			*finalize_word(char *input, int start, \
 				int *i, t_word_context *ctx);
 int				segment_has_any_actual_quotes(const char *segment_str, int len);
-int	check_token_condition(t_token *cur, t_token *prev);
-void	print_ambiguous_redirect_error(t_shell *shell, t_token *token);
 void			print_variables(t_var_info *variables);
-
+void			print_ambiguous_redirect_error(t_shell *shell, t_token *token);
+int				check_token_condition(t_token *cur, t_token *prev);
 // Environment Handling (src/env_handling)
 t_env			*init_env(char **envp);
 void			free_env(t_env *env);
@@ -269,9 +267,13 @@ char			*expand_heredoc_line(char *line, t_shell *shell);
 char			*generate_heredoc_filename(t_shell *shell);
 int				handle_heredocs(t_shell *shell);
 int				read_heredoc_input(char *delimiter, int expand, t_shell *shell);
-
+int				process_heredoc_loop(char *delimiter, int expand, \
+				int fd, t_shell *shell);
+void			write_line_to_file(int fd, char *line);
+int				should_stop_heredoc(char *line, char *delimiter);
+char			*process_heredoc_line(char *line, int expand, t_shell *shell);
 //exucution functions
-int				is_builtin(char *cmd, char **args, char *env_path, t_env **env);
+int				is_builtin(char *cmd, char **args, t_env **env);
 int				ft_echo(char **av);
 int				ft_pwd(t_env **env);
 int				ft_exit(char **args);
@@ -289,15 +291,9 @@ int				handl_export_args(char *arg, t_env **env);
 t_env			*copie_env(t_env	*head);
 int				is_valide_args(char *key);
 int				ft_unset(char **args, t_env **env);
-int				execute_with_setup(t_command **cmds, t_command *cmd, \
-				t_execution_info *info, char *env_path);
-int				cleanup_execution(t_execution_info *info);
 int				handle_redir(t_command *cmd);
-int				execute_multiple_commands(t_command **cmds, t_env **env, \
-				int cmd_count, t_execution_info *info);
 int				execute_single_command(t_command *cmd, t_env **env);
 void			handl_plus(t_env **env, char *key, char *value);
-int				setup_io(t_execution_info *info);
 char			*get_my_env(char *name, t_env *env);
 t_env			*init_default_env(t_env **env);
 int				handle_out_redir(t_redirect *redir_info);
@@ -313,5 +309,8 @@ t_command		*parse_single_command(t_token **tokens);
 void			add_redirect(t_command *cmd, t_token_type type, char *filename);
 void			count_args_and_redirs(t_token *start, int *arg_c, int *redir_c);
 int				env_to_array2(char **envp, int	*i, t_env *tmp);
-
+void			wait_for_pipeline(pid_t last_pid, \
+				int cmd_count, t_shell *shell);
+int				check_executable(char *cmd, char *env_path, char **full_path);
+void			free_redirects(t_redirect *redir);
 #endif

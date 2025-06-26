@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 01:57:51 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/22 15:47:24 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/21 21:54:27 by houabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	check_ambig(t_shell *shell)
 	while (current)
 	{
 		if (prev && is_redirection(prev->type) && \
-			prev->type != TOKEN_HEREDOC && current->value[0] == '\0')
+				prev->type != TOKEN_HEREDOC && current->value[0] == '\0')
 		{
 			printf("minishell: No such file or directory\n");
 			shell->exit_status = 1;

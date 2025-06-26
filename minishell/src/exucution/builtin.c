@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/23 18:05:09 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/25 16:44:24 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,55 @@ void	handle_getcwd_error(char **newpwd, t_env **env)
 	*newpwd = ft_strjoin(tmp, "/..");
 }
 
+char	*resolve_cd_path(char **args, t_env **env)
+{
+	char	*path;
+	char	*upgraded;
+
+	if (!args[1] || args[1][0] == '\0')
+		return (NULL);
+	if (args[1] && args[2])
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
+	path = args[1];
+	upgraded = NULL;
+	if (!path || ft_strcmp(path, "~") == 0)
+		path = get_my_env("HOME", *env);
+	else if (path && path[0] == '~' && path[1] == '/')
+	{
+		upgraded = ft_strjoin(get_my_env("HOME", *env), path + 1);
+		if (upgraded)
+			path = ft_strdup(upgraded);
+	}
+	if (!path)
+		return (ft_putstr_fd("cd: HOME not set\n", 2), NULL);
+	return (free(upgraded), path);
+}
+
 int	ft_cd(char **args, t_env **env)
 {
 	char	*oldpwd;
 	char	*newpwd;
 	char	*path;
 
-	if (!args[1][0])
-		return (0);
-	path = args[1];
-	oldpwd = getcwd(NULL, 0);
-	if (!path || ft_strcmp(path, "~") == 0)
-		path = get_my_env("HOME", *env);
+	path = resolve_cd_path(args, env);
 	if (!path)
-		return (free(oldpwd), ft_putstr_fd("cd: HOME not set\n", 2), 1);
+		return (1);
+	oldpwd = getcwd(NULL, 0);
 	if (chdir(path) == -1)
-		return (ft_putstr_fd("cd: ", 2), write(2, path, ft_strlen(path)), \
-		ft_putstr_fd(" No such file or directory\n", 2), free(oldpwd), 1);
+	{
+		ft_putstr_fd("cd: ", 2);
+		write(2, path, ft_strlen(path));
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (free(oldpwd), free(path), 1);
+	}
 	newpwd = getcwd(NULL, 0);
 	if (!oldpwd && !newpwd)
 		handle_getcwd_error(&newpwd, env);
 	updat_env(env, "OLDPWD", oldpwd);
 	updat_env(env, "PWD", newpwd);
 	if (oldpwd)
-		free (oldpwd);
-	return (free(newpwd), 0);
+		free(oldpwd);
+	return (free(newpwd), free(path), 0);
 }
 
 int	is_numeric(char *str)
@@ -83,22 +107,4 @@ int	ft_exit(char **args)
 		return (1);
 	}
 	exit (ft_atoi(args[1]) % 256);
-}
-
-int	ft_pwd(t_env **env)
-{
-	char	*path;
-
-	path = getcwd(NULL, 0);
-	if (!path)
-	{
-		path = get_my_env("PWD", *env);
-		if (!path)
-			return (1);
-	}
-	write(1, path, ft_strlen(path));
-	write(1, "\n", 1);
-	if (path && path != get_my_env("PWD", *env))
-		free(path);
-	return (0);
 }

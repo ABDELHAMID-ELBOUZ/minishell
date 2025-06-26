@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:14:52 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/21 08:32:17 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:18:01 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,42 +45,33 @@ int	validate_syntax(t_token *tokens)
 	return (1);
 }
 
-void	free_shell(t_shell *shell)
+void	reset_shell_part1(t_shell *shell)
 {
-	if (!shell)
-		return ;
-	if (shell->tokens)
-		free_tokens(shell->tokens);
-	if (shell->commands)
-		free_cmd(shell->commands);
-	if (shell->env)
-		free_env(shell->env);
-	if (shell->input)
-		free(shell->input);
-	if (shell->variables)
-		free_var_info_list(shell->variables);
-	if (shell->heredoc_files)
-		cleanup_files(shell);
-	free(shell);
-}
+	t_command	*current_cmd;
+	t_command	*next_cmd;
 
-void	reset_shell(t_shell *shell)
-{
 	if (shell->tokens)
 	{
 		free_tokens(shell->tokens);
 		shell->tokens = NULL;
 	}
-	if (shell->commands)
+	current_cmd = shell->commands;
+	while (current_cmd)
 	{
-		free_cmd(shell->commands);
-		shell->commands = NULL;
+		next_cmd = current_cmd->next;
+		free_cmd(current_cmd);
+		current_cmd = next_cmd;
 	}
+	shell->commands = NULL;
 	if (shell->input)
 	{
 		free(shell->input);
 		shell->input = NULL;
 	}
+}
+
+void	reset_shell_part2(t_shell *shell)
+{
 	if (shell->variables)
 	{
 		free_var_info_list(shell->variables);
@@ -89,4 +80,10 @@ void	reset_shell(t_shell *shell)
 	if (shell->heredoc_files)
 		cleanup_files(shell);
 	shell->heredoc_sigint = 0;
+}
+
+void	reset_shell(t_shell *shell)
+{
+	reset_shell_part1(shell);
+	reset_shell_part2(shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/22 11:54:32 by abdelhamid       ###   ########.fr       */
+/*   Updated: 2025/06/25 16:45:03 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-int	ft_env(t_env *envp)
+int	ft_env(t_env *envp, char *arg)
 {
+	if (arg != NULL)
+		return (printf("env: '%s': No such file or directory\n", arg), 127);
 	while (envp)
 	{
 		if (envp->value)
@@ -69,11 +71,33 @@ int	ft_env(t_env *envp)
 	return (0);
 }
 
-int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
+int	ft_pwd(t_env **env)
 {
+	char	*path;
+
+	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		path = get_my_env("PWD", *env);
+		if (!path)
+			return (1);
+	}
+	write(1, path, ft_strlen(path));
+	write(1, "\n", 1);
+	if (path && path != get_my_env("PWD", *env))
+		free(path);
+	return (0);
+}
+
+int	is_builtin(char *cmd, char **args, t_env **env)
+{
+	char	*env_path;
+
 	if (!cmd)
 		return (0);
-
+	env_path = get_my_env("PATH", *env);
+	if (env_path == NULL)
+		env_path = NULL;
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (ft_echo(args));
 	if (ft_strcmp(cmd, "pwd") == 0)
@@ -83,7 +107,7 @@ int	is_builtin(char *cmd, char **args, char *env_path, t_env **env)
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(args, env));
 	if (ft_strcmp(cmd, "env") == 0)
-		return (ft_env(*env));
+		return (ft_env(*env, args[1]));
 	if (ft_strcmp(cmd, "export") == 0)
 		return (ft_export(args, env));
 	if (ft_strcmp(cmd, "unset") == 0)
