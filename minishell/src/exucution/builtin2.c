@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/26 11:07:41 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/27 08:50:15 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-int	ft_env(t_env *envp, char *arg)
+int	ft_env(t_env *envp)
 {
-	if (arg != NULL)
-		return (printf("env: '%s': No such file or directory\n", arg), 127);
 	while (envp)
 	{
 		if (envp->value)
@@ -107,7 +105,7 @@ int	is_builtin(char *cmd, char **args, t_env **env)
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(args, env));
 	if (ft_strcmp(cmd, "env") == 0)
-		return (ft_env(*env, args[1]));
+		return (ft_env(*env));
 	if (ft_strcmp(cmd, "export") == 0)
 		return (ft_export(args, env));
 	if (ft_strcmp(cmd, "unset") == 0)
