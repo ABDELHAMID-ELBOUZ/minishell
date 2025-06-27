@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houabell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:15:38 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/22 16:57:06 by houabell         ###   ########.fr       */
+/*   Updated: 2025/06/27 08:46:55 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	sigint_heredoc_handler(int sig)
 {
 	(void)sig;
 	g_signal_status = 130;
+	get_exit_status(g_signal_status, 1);
 	printf("\n");
 	close(0);
 }
@@ -39,6 +40,7 @@ void	sigint_handler(int sig)
 {
 	(void)sig;
 	g_signal_status = 130;
+	get_exit_status(g_signal_status, 1);
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);

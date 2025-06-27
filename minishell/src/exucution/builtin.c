@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/25 16:44:24 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/27 08:38:43 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,18 @@ int	ft_exit(char **args)
 {
 	ft_putstr_fd("exit\n", 1);
 	if (!args || !args[1])
-		exit (0);
+		exit (get_exit_status(0,0));
 	if ((is_numeric(args[1])) == 1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd(":`exit: numeric argument required\n", 2);
+		ft_putstr_fd(": exit: numeric argument required\n", 2);
 		exit (2);
 	}
 	else if (args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		return (1);
+		exit (1);
 	}
 	exit (ft_atoi(args[1]) % 256);
 }

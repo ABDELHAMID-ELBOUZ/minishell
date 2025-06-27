@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:48:59 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/26 08:37:30 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/27 08:38:37 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_status(char **args, char *env_path, char **full_path)
 				ft_putstr_fd(": Permission denied\n", 2);
 		}
 	}
-	return (status);
+	return (get_exit_status(status, 1));
 }
 
 int	is_not_builtin(char **args, char *env_path, t_env *env)
@@ -82,4 +82,12 @@ void	free_cmd(t_command *cmd)
 	if (cmd->redirects)
 		free_redirects(cmd->redirects);
 	free(cmd);
+}
+
+int	get_exit_status(int status, int flag)
+{
+	static int	exit_status;
+	if (flag == 1)
+		exit_status = status;
+	return (exit_status);
 }

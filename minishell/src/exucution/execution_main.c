@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 15:05:10 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/25 16:52:10 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/27 08:43:12 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_single_command1(t_command *cmd, t_env **env, \
 
 	if (!cmd->args || (!cmd->args[0] && !cmd->redirects))
 		return (0);
-	if (cmd->args && cmd->args[0] && is_parent_builtin(cmd->args[0]))
+	if (cmd->args && cmd->args[0] && is_parent_builtin(cmd->args[0]) == 1)
 	{
 		*stdout_save = dup(STDOUT_FILENO);
 		*stdin_save = dup(STDIN_FILENO);
@@ -42,6 +42,7 @@ int	execute_single_command1(t_command *cmd, t_env **env, \
 			return (dup2(*stdout_save, STDOUT_FILENO), dup2(*stdin_save, \
 					STDIN_FILENO), close(*stdout_save), close(*stdin_save), 1);
 		status = is_builtin(cmd->args[0], cmd->args, env);
+		get_exit_status(status, 1);
 		dup2(*stdout_save, STDOUT_FILENO);
 		dup2(*stdin_save, STDIN_FILENO);
 		close(*stdout_save);
@@ -65,6 +66,7 @@ int	execute_single_command2(pid_t pid, int *status)
 	}
 	if (WIFEXITED(*status))
 		return (WEXITSTATUS(*status));
+	get_exit_status(*status, 1);
 	return (*status);
 }
 
@@ -75,7 +77,8 @@ int	execute_single_command(t_command *cmd, t_env **env)
 	int		stdin_save;
 	pid_t	pid;
 
-	if (execute_single_command1(cmd, env, &stdout_save, &stdin_save) != -1)
+	status = execute_single_command1(cmd, env, &stdout_save, &stdin_save);
+	if (status != -1)
 		return (status);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
@@ -90,7 +93,8 @@ int	execute_single_command(t_command *cmd, t_env **env)
 			exit(1);
 		exit(is_builtin(cmd->args[0], cmd->args, env));
 	}
-	return (execute_single_command2(pid, &status));
+	status = execute_single_command2(pid, &status);
+	return (get_exit_status(status, 1));
 }
 
 void	wait_for_pipeline(pid_t last_pid, int cmd_count, t_shell *shell)
@@ -112,6 +116,7 @@ void	wait_for_pipeline(pid_t last_pid, int cmd_count, t_shell *shell)
 			shell->exit_status = 128 + WTERMSIG(status);
 		}
 	}
+	get_exit_status(shell->exit_status, 1);
 	i = 0;
 	while (i < cmd_count)
 	{
