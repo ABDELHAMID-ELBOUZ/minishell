@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abdelhamid <abdelhamid@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/27 08:24:35 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/28 20:59:37 by abdelhamid       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,7 @@ int				should_stop_heredoc(char *line, char *delimiter);
 char			*process_heredoc_line(char *line, int expand, t_shell *shell);
 //exucution functions
 int				get_exit_status(int status, int flag);
+int				is_numeric(char *str);
 int				is_builtin(char *cmd, char **args, t_env **env);
 int				ft_echo(char **av);
 int				ft_pwd(t_env **env);
