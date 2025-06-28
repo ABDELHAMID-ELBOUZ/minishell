@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:48:59 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/27 08:38:37 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/28 09:03:41 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,28 @@ void	free_cmd(t_command *cmd)
 int	get_exit_status(int status, int flag)
 {
 	static int	exit_status;
+
 	if (flag == 1)
 		exit_status = status;
 	return (exit_status);
+}
+
+int	ft_exit(char **args)
+{
+	ft_putstr_fd("exit\n", 1);
+	if (!args || !args[1])
+		exit (get_exit_status(0, 0));
+	if ((is_numeric(args[1])) == 1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(args[1], 2);
+		ft_putstr_fd(": exit: numeric argument required\n", 2);
+		exit (2);
+	}
+	else if (args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		exit (1);
+	}
+	exit (ft_atoi(args[1]) % 256);
 }

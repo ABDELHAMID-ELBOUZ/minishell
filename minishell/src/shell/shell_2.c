@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:29:17 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/26 10:07:37 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/27 11:59:50 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	process_command(t_shell *shell)
 				execute_commands(shell);
 		}
 		else
-			shell->exit_status = 2;
+			shell->exit_status = get_exit_status(2, 1);
 	}
 	return (SUCCESS);
 }
