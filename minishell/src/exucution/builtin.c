@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/28 09:04:39 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/06/29 09:42:56 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int	change_directory(char *path, t_env **env, char *oldpwd, char *upgraded)
 	newpwd = getcwd(NULL, 0);
 	if (!oldpwd && !newpwd)
 		handle_getcwd_error(&newpwd, env);
-	updat_env(env, "OLDPWD", oldpwd);
+	if (oldpwd)
+		updat_env(env, "OLDPWD", oldpwd);
+	else
+		updat_env(env, "OLDPWD", get_my_env("PWD", *env));
 	updat_env(env, "PWD", newpwd);
 	free(oldpwd);
 	free(newpwd);
