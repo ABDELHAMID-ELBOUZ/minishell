@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/27 08:50:15 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 09:33:07 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_pwd(t_env **env)
 	return (0);
 }
 
-int	is_builtin(char *cmd, char **args, t_env **env)
+int	is_builtin(char *cmd, char **args, t_env **env, int in_pipe)
 {
 	char	*env_path;
 
@@ -101,7 +101,7 @@ int	is_builtin(char *cmd, char **args, t_env **env)
 	if (ft_strcmp(cmd, "pwd") == 0)
 		return (ft_pwd(env));
 	if (ft_strcmp(cmd, "exit") == 0)
-		return (ft_exit(args));
+		return (ft_exit(args, in_pipe));
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (ft_cd(args, env));
 	if (ft_strcmp(cmd, "env") == 0)

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:48:59 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/29 09:49:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:16:16 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,21 @@ int	is_not_builtin(char **args, char *env_path, t_env *env)
 	full_path = NULL;
 	status = check_status(args, env_path, &full_path);
 	if (status != 0)
-		exit(status);
+		return (status);
 	envp = env_to_array(env);
 	if (!envp)
 	{
 		free(full_path);
 		exit(1);
 	}
-	execve(full_path, args, envp);
-	free(full_path);
-	free_arr(envp);
-	perror(args[0]);
-	exit(126);
+	if (execve(full_path, args, envp) == -1)
+	{
+		free(full_path);
+		free_arr(envp);
+		perror(args[0]);
+		return (1);
+	}
+	return (0);
 }
 
 void	free_cmd(t_command *cmd)
@@ -93,9 +96,10 @@ int	get_exit_status(int status, int flag)
 	return (exit_status);
 }
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, int in_pipe)
 {
-	ft_putstr_fd("exit\n", 1);
+	if (in_pipe == 0)
+		ft_putstr_fd("exit\n", 1);
 	if (!args || !args[1])
 		exit (get_exit_status(0, 0));
 	if ((is_numeric(args[1])) == 1)

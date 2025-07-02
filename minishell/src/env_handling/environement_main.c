@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:51:40 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/19 10:57:35 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:12:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,27 +89,27 @@ void	init_default_env1(t_env **env)
 			free(pwd);
 		}
 	}
-	if (!get_my_env("SHLVL", *env))
-	{
-		new = ft_lstnew("SHLVL", "1");
-		ft_lstadd_back(env, new);
-	}
 }
 
 t_env	*init_default_env(t_env **env)
 {
 	t_env	*new;
+	char	*pwd;
 
-	init_default_env1(env);
-	if (!get_my_env("_", *env))
+	if (!get_my_env("PWD", *env))
 	{
-		new = ft_lstnew("_", "/usr/bin/env");
-		ft_lstadd_back(env, new);
+		pwd = getcwd(NULL, 0);
+		if (pwd)
+		{
+			new = ft_lstnew("PWD", pwd);
+			ft_lstadd_back(env, new);
+			free(pwd);
+		}
 	}
 	if (!get_my_env("PATH", *env))
 	{
 		new = ft_lstnew("PATH", \
-		"/vscode:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+		"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
 		ft_lstadd_back(env, new);
 	}
 	if (!get_my_env("OLLPWD", *env))

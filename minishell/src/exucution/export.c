@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/26 10:57:26 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 10:51:53 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	is_valide_args(char *key)
 
 	if (!*key || !key || ft_isdigit(key[0]) || key[0] == '=' || key[0] == '+')
 		return (0);
-	i = 0;
-	while (key[i] && key[i] != '=' && key[i] != '+')
+	i = 1;
+	while (key[i] && key[i] != '=')
 	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
+		if (!ft_isalnum(key[i]) && key[i] != '_' && (key[i] == '+' && key[i + 1] != '='))
 			return (0);
 		i++;
 	}

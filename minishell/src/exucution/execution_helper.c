@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:31:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/26 08:37:00 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 15:08:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	execute_child_process(t_pipeline_data *data)
 	if (handle_redir(data->cmds[*data->i]) != 0)
 		exit(1);
 	exit(is_builtin(data->cmds[*data->i]->args[0], data->cmds[*data->i]->args, \
-		&data->shell->env));
+		&data->shell->env, 1));
 }
 
 void	process_pipeline_loop(t_pipeline_data *data)

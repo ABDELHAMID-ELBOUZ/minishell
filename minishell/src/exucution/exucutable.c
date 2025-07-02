@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 10:48:33 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/25 16:49:25 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 09:16:01 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,8 @@ char	*find_executable(char *cmd, char *env_path)
 	i = 0;
 	full_path = NULL;
 	if (search_executable_in_dirs(dirs, cmd, &i, &full_path))
-	{
-		free_arr(dirs);
-		return (full_path);
-	}
-	free_arr(dirs);
-	return (NULL);
+		return (free_arr(dirs), full_path);
+	return (free_arr(dirs), NULL);
 }
 
 static int	check_direct_path(char *cmd, char **full_path)
@@ -98,9 +94,7 @@ int	check_executable(char *cmd, char *env_path, char **full_path)
 	if (!cmd || cmd[0] == '\0')
 		return (127);
 	if (ft_strchr(cmd, '/'))
-	{
 		return (check_direct_path(cmd, full_path));
-	}
 	if (env_path)
 		*full_path = find_executable(cmd, env_path);
 	else

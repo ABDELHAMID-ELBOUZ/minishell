@@ -6,13 +6,13 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 15:05:10 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/27 08:43:12 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/02 14:26:24 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	is_parent_builtin(char *cmd)
+int	is_parent_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
@@ -39,15 +39,13 @@ int	execute_single_command1(t_command *cmd, t_env **env, \
 		*stdout_save = dup(STDOUT_FILENO);
 		*stdin_save = dup(STDIN_FILENO);
 		if (handle_redir(cmd) != 0)
-			return (dup2(*stdout_save, STDOUT_FILENO), dup2(*stdin_save, \
-					STDIN_FILENO), close(*stdout_save), close(*stdin_save), 1);
-		status = is_builtin(cmd->args[0], cmd->args, env);
-		get_exit_status(status, 1);
+			return (close(*stdout_save), close(*stdin_save), 1);
+		status = is_builtin(cmd->args[0], cmd->args, env, 0);
 		dup2(*stdout_save, STDOUT_FILENO);
 		dup2(*stdin_save, STDIN_FILENO);
 		close(*stdout_save);
 		close(*stdin_save);
-		return (status);
+		return (get_exit_status(status, 1));
 	}
 	return (-1);
 }
@@ -66,7 +64,6 @@ int	execute_single_command2(pid_t pid, int *status)
 	}
 	if (WIFEXITED(*status))
 		return (WEXITSTATUS(*status));
-	get_exit_status(*status, 1);
 	return (*status);
 }
 
@@ -91,7 +88,7 @@ int	execute_single_command(t_command *cmd, t_env **env)
 		signal(SIGQUIT, SIG_DFL);
 		if (handle_redir(cmd) != 0)
 			exit(1);
-		exit(is_builtin(cmd->args[0], cmd->args, env));
+		exit(is_builtin(cmd->args[0], cmd->args, env, 0));
 	}
 	status = execute_single_command2(pid, &status);
 	return (get_exit_status(status, 1));
