@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 04:51:41 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/28 20:59:37 by aelbouz       ###   ########.fr       */
+/*   Updated: 2025/07/03 03:57:25 by houabell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_shell {
 	t_quote_type	csqt;
 	char			**heredoc_files;
 	int				heredoc_count;
+	int				interactive;
 }	t_shell;
 
 typedef struct s_quote_params {
@@ -315,4 +316,6 @@ void			wait_for_pipeline(pid_t last_pid, \
 				int cmd_count, t_shell *shell);
 int				check_executable(char *cmd, char *env_path, char **full_path);
 void			free_redirects(t_redirect *redir);
+int				is_parent_builtin(char *cmd);
+void			set_interactive_mode(t_shell *shell);
 #endif

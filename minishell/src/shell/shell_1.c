@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:14:52 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/25 16:18:01 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:13:16 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_shell	*init_shell(char **envp)
 	shell->variables = NULL;
 	shell->heredoc_files = NULL;
 	shell->heredoc_count = 0;
+	set_interactive_mode(shell);
 	return (shell);
 }
 

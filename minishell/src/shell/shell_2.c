@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:29:17 by houabell          #+#    #+#             */
-/*   Updated: 2025/06/27 11:59:50 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/03 10:00:32 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,21 @@ static	int	get_and_process_input(t_shell *shell)
 {
 	char	*prompt;
 
-	prompt = readline("minishell> ");
+	if (shell->interactive)
+		prompt = readline("minishell> ");
+	else
+		prompt = readline(NULL);
 	if (!prompt)
 	{
-		printf("exit\n");
+		if (shell->interactive)
+			printf("exit\n");
 		shell->running = 0;
 		return (ERROR);
 	}
 	if (*prompt)
 	{
-		add_history(prompt);
+		if (shell->interactive)
+			add_history(prompt);
 		shell->input = ft_strdup(prompt);
 		free(prompt);
 		if (!shell->input)
@@ -33,8 +38,7 @@ static	int	get_and_process_input(t_shell *shell)
 		shell->tokens = tokenize(shell->input, shell);
 		return (SUCCESS);
 	}
-	free(prompt);
-	return (SUCCESS);
+	return (free(prompt), SUCCESS);
 }
 
 static int	process_command(t_shell *shell)
@@ -70,7 +74,8 @@ void	free_var_info_list(t_var_info *var_head)
 
 int	minishell_loop(t_shell *shell)
 {
-	handle_signals();
+	if (shell->interactive)
+		handle_signals();
 	while (shell->running)
 	{
 		if (get_and_process_input(shell) == ERROR)
