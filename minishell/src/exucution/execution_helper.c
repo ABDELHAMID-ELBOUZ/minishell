@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:31:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/07/02 15:08:49 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/05 14:10:34 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ void	execute_child_process(t_pipeline_data *data)
 		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == -1)
 			exit(1);
 		close(data->pipe_fd[1]);
-	}
-	if (!data->cmds[*data->i]->args || !data->cmds[*data->i]->args[0])
-	{
-		handle_redir(data->cmds[*data->i]);
-		exit(0);
 	}
 	if (handle_redir(data->cmds[*data->i]) != 0)
 		exit(1);

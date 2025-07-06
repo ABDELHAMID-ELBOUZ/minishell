@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: houabell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 22:07:58 by houabell          #+#    #+#             */
-/*   Updated: 2025/07/03 04:15:26 by houabell         ###   ########.fr       */
+/*   Updated: 2025/07/05 10:14:13 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av, char **envp)
 	shell = init_shell(envp);
 	if (!shell)
 		return (ERROR);
-	if (shell->interactive == 0 && isatty(STDIN_FILENO))
+	if (shell->interactive == 0)
 	{
 		free_shell(shell);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:27:38 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/07/03 15:17:07 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/06 08:32:33 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	print_export(t_env *env)
 		return ;
 	while (sorted)
 	{
-		if (!sorted->value && ft_strcmp(sorted->key, "_=") != 0)
+		if (!sorted->value && ft_strcmp(sorted->key, "_") != 0)
 			printf("declare -x %s\n", sorted->key);
-		else if (ft_strcmp(sorted->key, "_=") != 0)
+		else if (ft_strcmp(sorted->key, "_") != 0)
 			printf("declare -x %s=\"%s\"\n", sorted->key, sorted->value);
 		sorted = sorted->next;
 	}

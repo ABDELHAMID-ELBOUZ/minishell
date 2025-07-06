@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 21:51:40 by houabell          #+#    #+#             */
-/*   Updated: 2025/07/03 09:48:26 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/06 08:37:31 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,6 @@ t_env	*ft_lstnew(char *key, char *value)
 	return (new);
 }
 
-void	init_default_env1(t_env **env)
-{
-	t_env	*new;
-	char	*pwd;
-
-	if (!get_my_env("PWD", *env))
-	{
-		pwd = getcwd(NULL, 0);
-		if (pwd)
-		{
-			new = ft_lstnew("PWD", pwd);
-			ft_lstadd_back(env, new);
-			free(pwd);
-		}
-	}
-}
-
 t_env	*init_default_env(t_env **env)
 {
 	t_env	*new;
@@ -112,7 +95,7 @@ t_env	*init_default_env(t_env **env)
 		"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
 		ft_lstadd_back(env, new);
 	}
-	if (!get_my_env("OLLPWD", *env))
+	if (!get_my_env("OLDPWD", *env))
 	{
 		new = ft_lstnew("OLDPWD", NULL);
 		ft_lstadd_back(env, new);

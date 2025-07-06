@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 10:48:26 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/17 11:37:34 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/05 13:49:18 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int	ft_unset(char **args, t_env **env)
 	status = 0;
 	while (args[i])
 	{
+		if (args[i][0] == '_')
+			return (0);
 		if (!args[i] || !is_valide_unset(args[i]))
 		{
 			ft_putstr_fd("minishell: unset: ", 2);
