@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 16:31:00 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/07/05 14:10:34 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/06 14:59:20 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	process_pipeline_loop(t_pipeline_data *data)
 			return (perror("minishell: pipe"));
 		*data->pid = fork();
 		if (*data->pid == -1)
-			return (perror("minishell: fork"));
+		{
+			handle_fork_failure(data);
+			return ;
+		}
 		if (*data->pid == 0)
 			execute_child_process(data);
 		if (*data->in_fd != STDIN_FILENO)

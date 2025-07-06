@@ -274,6 +274,7 @@ void			write_line_to_file(int fd, char *line);
 int				should_stop_heredoc(char *line, char *delimiter);
 char			*process_heredoc_line(char *line, int expand, t_shell *shell);
 //exucution functions
+void			handle_fork_failure(t_pipeline_data *data);
 int				get_exit_status(int status, int flag);
 int				is_numeric(char *str);
 int				is_builtin(char *cmd, char **args, t_env **env, int in_pipe);

@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:21:49 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/07/03 15:08:23 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/06 13:16:46 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	is_builtin(char *cmd, char **args, t_env **env, int in_pipe)
 {
 	char	*env_path;
 
-	if (!cmd)
+	if (cmd == NULL)
 		return (0);
 	env_path = get_my_env("PATH", *env);
 	if (env_path == NULL)

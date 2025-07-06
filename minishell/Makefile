@@ -67,6 +67,7 @@ SRCS = \
 	$(EXUCUTION)export.c \
 	$(EXUCUTION)export2.c \
 	$(EXUCUTION)export3.c \
+	$(EXUCUTION)execution_helper3.c\
 	$(EXUCUTION)exucutable.c \
 	$(EXUCUTION)execution_main.c \
 	$(EXUCUTION)rediractions2.c \

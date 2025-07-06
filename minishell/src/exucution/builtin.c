@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 13:26:56 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/29 09:42:56 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/06 11:42:26 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	handle_getcwd_error(char **newpwd, t_env **env)
 	ft_putstr_fd("cd: error retrieving current directory: ", 2);
 	perror("getcwd");
 	tmp = get_my_env("PWD", *env);
-	*newpwd = ft_strjoin(tmp, "/..");
+	if (tmp)
+		*newpwd = ft_strjoin(tmp, "/..");
 }
 
 char	*resolve_cd_path(char **args, t_env **env, char **upgraded)
@@ -56,7 +57,10 @@ int	change_directory(char *path, t_env **env, char *oldpwd, char *upgraded)
 	if (oldpwd)
 		updat_env(env, "OLDPWD", oldpwd);
 	else
-		updat_env(env, "OLDPWD", get_my_env("PWD", *env));
+	{
+		if (get_my_env("PWD", *env))
+			updat_env(env, "OLDPWD", get_my_env("PWD", *env));
+	}
 	updat_env(env, "PWD", newpwd);
 	free(oldpwd);
 	free(newpwd);
