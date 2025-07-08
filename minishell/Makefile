@@ -1,9 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror  -g -fsanitize=address # -g for debugging, remove for release
-# If you are using the readline library from a non-standard location, you might need:
-# CFLAGS += -I/path/to/readline/include
-# LDFLAGS += -L/path/to/readline/lib
+CFLAGS = -Wall -Wextra -Werror
 LDFLAGS = -lreadline # Common linker flag for readline
 
 # Project Name
@@ -112,6 +109,3 @@ fclean: clean
 
 # Re rule: forces recompilation
 re: fclean all
-
-# Phony targets: targets that are not actual files
-.PHONY: all clean fclean re

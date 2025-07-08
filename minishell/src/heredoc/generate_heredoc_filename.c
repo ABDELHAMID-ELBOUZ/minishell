@@ -6,7 +6,7 @@
 /*   By: aelbouz <aelbouz@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:28:31 by aelbouz           #+#    #+#             */
-/*   Updated: 2025/06/25 16:14:22 by aelbouz          ###   ########.fr       */
+/*   Updated: 2025/07/06 16:07:49 by aelbouz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*generate_heredoc_filename(t_shell *shell)
 	char	*base_name;
 	char	*full_path;
 
-	pid_str = ft_itoa(getpid());
+	pid_str = ft_itoa(((unsigned long long)shell) % 7000000000);
 	count_str = ft_itoa(shell->heredoc_count++);
 	base_name = ft_strjoin("minishell_heredoc_", pid_str);
 	base_name = append_str(base_name, "_");
